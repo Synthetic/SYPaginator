@@ -1,0 +1,335 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B275DFCE1509657000D6E7C1 /* PERootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B275DFCD1509656F00D6E7C1 /* PERootViewController.m */; };
+		B2C4DF731509622800ABF21F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2C4DF721509622800ABF21F /* UIKit.framework */; };
+		B2C4DF751509622800ABF21F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2C4DF741509622800ABF21F /* Foundation.framework */; };
+		B2C4DF771509622800ABF21F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2C4DF761509622800ABF21F /* CoreGraphics.framework */; };
+		B2C4DF96150962AD00ABF21F /* PEAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C4DF90150962AD00ABF21F /* PEAppDelegate.m */; };
+		B2C4DF97150962AD00ABF21F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C4DF92150962AD00ABF21F /* main.m */; };
+		B2C4DFA4150962C100ABF21F /* libSYPaginator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B2C4DFA1150962B000ABF21F /* libSYPaginator.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B2C4DFA0150962B000ABF21F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B2C4DF99150962AF00ABF21F /* SYPaginator.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B2C4DF531509621B00ABF21F;
+			remoteInfo = SYPaginator;
+		};
+		B2C4DFA2150962BD00ABF21F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B2C4DF99150962AF00ABF21F /* SYPaginator.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = B2C4DF521509621B00ABF21F;
+			remoteInfo = SYPaginator;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		B275DFCC1509656F00D6E7C1 /* PERootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PERootViewController.h; sourceTree = "<group>"; };
+		B275DFCD1509656F00D6E7C1 /* PERootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PERootViewController.m; sourceTree = "<group>"; };
+		B2C4DF6E1509622800ABF21F /* Paginator Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Paginator Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2C4DF721509622800ABF21F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		B2C4DF741509622800ABF21F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		B2C4DF761509622800ABF21F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		B2C4DF8F150962AD00ABF21F /* PEAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEAppDelegate.h; sourceTree = "<group>"; };
+		B2C4DF90150962AD00ABF21F /* PEAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PEAppDelegate.m; sourceTree = "<group>"; };
+		B2C4DF92150962AD00ABF21F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		B2C4DF93150962AD00ABF21F /* Paginator Example-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Paginator Example-Prefix.pch"; sourceTree = "<group>"; };
+		B2C4DF95150962AD00ABF21F /* Paginator Example-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Paginator Example-Info.plist"; sourceTree = "<group>"; };
+		B2C4DF99150962AF00ABF21F /* SYPaginator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SYPaginator.xcodeproj; path = ../SYPaginator.xcodeproj; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B2C4DF6B1509622800ABF21F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B2C4DFA4150962C100ABF21F /* libSYPaginator.a in Frameworks */,
+				B2C4DF731509622800ABF21F /* UIKit.framework in Frameworks */,
+				B2C4DF751509622800ABF21F /* Foundation.framework in Frameworks */,
+				B2C4DF771509622800ABF21F /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B2C4DF631509622800ABF21F = {
+			isa = PBXGroup;
+			children = (
+				B2C4DF99150962AF00ABF21F /* SYPaginator.xcodeproj */,
+				B2C4DF8E150962AD00ABF21F /* Classes */,
+				B2C4DF91150962AD00ABF21F /* Other Sources */,
+				B2C4DF94150962AD00ABF21F /* Resources */,
+				B2C4DF711509622800ABF21F /* Frameworks */,
+				B2C4DF6F1509622800ABF21F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B2C4DF6F1509622800ABF21F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B2C4DF6E1509622800ABF21F /* Paginator Example.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B2C4DF711509622800ABF21F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B2C4DF721509622800ABF21F /* UIKit.framework */,
+				B2C4DF741509622800ABF21F /* Foundation.framework */,
+				B2C4DF761509622800ABF21F /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B2C4DF8E150962AD00ABF21F /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				B2C4DF8F150962AD00ABF21F /* PEAppDelegate.h */,
+				B2C4DF90150962AD00ABF21F /* PEAppDelegate.m */,
+				B275DFCC1509656F00D6E7C1 /* PERootViewController.h */,
+				B275DFCD1509656F00D6E7C1 /* PERootViewController.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		B2C4DF91150962AD00ABF21F /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				B2C4DF92150962AD00ABF21F /* main.m */,
+				B2C4DF93150962AD00ABF21F /* Paginator Example-Prefix.pch */,
+			);
+			path = "Other Sources";
+			sourceTree = "<group>";
+		};
+		B2C4DF94150962AD00ABF21F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B2C4DF95150962AD00ABF21F /* Paginator Example-Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		B2C4DF9A150962AF00ABF21F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B2C4DFA1150962B000ABF21F /* libSYPaginator.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B2C4DF6D1509622800ABF21F /* Paginator Example */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B2C4DF861509622800ABF21F /* Build configuration list for PBXNativeTarget "Paginator Example" */;
+			buildPhases = (
+				B2C4DF6A1509622800ABF21F /* Sources */,
+				B2C4DF6B1509622800ABF21F /* Frameworks */,
+				B2C4DF6C1509622800ABF21F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B2C4DFA3150962BD00ABF21F /* PBXTargetDependency */,
+			);
+			name = "Paginator Example";
+			productName = "Paginator Example";
+			productReference = B2C4DF6E1509622800ABF21F /* Paginator Example.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B2C4DF651509622800ABF21F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = PE;
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = Synthetic;
+			};
+			buildConfigurationList = B2C4DF681509622800ABF21F /* Build configuration list for PBXProject "Paginator Example" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = B2C4DF631509622800ABF21F;
+			productRefGroup = B2C4DF6F1509622800ABF21F /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = B2C4DF9A150962AF00ABF21F /* Products */;
+					ProjectRef = B2C4DF99150962AF00ABF21F /* SYPaginator.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				B2C4DF6D1509622800ABF21F /* Paginator Example */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		B2C4DFA1150962B000ABF21F /* libSYPaginator.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSYPaginator.a;
+			remoteRef = B2C4DFA0150962B000ABF21F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B2C4DF6C1509622800ABF21F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B2C4DF6A1509622800ABF21F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B2C4DF96150962AD00ABF21F /* PEAppDelegate.m in Sources */,
+				B2C4DF97150962AD00ABF21F /* main.m in Sources */,
+				B275DFCE1509657000D6E7C1 /* PERootViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B2C4DFA3150962BD00ABF21F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SYPaginator;
+			targetProxy = B2C4DFA2150962BD00ABF21F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		B2C4DF841509622800ABF21F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B2C4DF851509622800ABF21F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B2C4DF871509622800ABF21F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Other Sources/Paginator Example-Prefix.pch";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../\"";
+				INFOPLIST_FILE = "Resources/Paginator Example-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		B2C4DF881509622800ABF21F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Other Sources/Paginator Example-Prefix.pch";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../\"";
+				INFOPLIST_FILE = "Resources/Paginator Example-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B2C4DF681509622800ABF21F /* Build configuration list for PBXProject "Paginator Example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B2C4DF841509622800ABF21F /* Debug */,
+				B2C4DF851509622800ABF21F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B2C4DF861509622800ABF21F /* Build configuration list for PBXNativeTarget "Paginator Example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B2C4DF871509622800ABF21F /* Debug */,
+				B2C4DF881509622800ABF21F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B2C4DF651509622800ABF21F /* Project object */;
+}
