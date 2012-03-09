@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B275DFCE1509657000D6E7C1 /* PERootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B275DFCD1509656F00D6E7C1 /* PERootViewController.m */; };
+		B275DFF715097FD000D6E7C1 /* PEPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = B275DFF615097FD000D6E7C1 /* PEPageView.m */; };
 		B2C4DF731509622800ABF21F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2C4DF721509622800ABF21F /* UIKit.framework */; };
 		B2C4DF751509622800ABF21F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2C4DF741509622800ABF21F /* Foundation.framework */; };
 		B2C4DF771509622800ABF21F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2C4DF761509622800ABF21F /* CoreGraphics.framework */; };
@@ -36,6 +37,8 @@
 /* Begin PBXFileReference section */
 		B275DFCC1509656F00D6E7C1 /* PERootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PERootViewController.h; sourceTree = "<group>"; };
 		B275DFCD1509656F00D6E7C1 /* PERootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PERootViewController.m; sourceTree = "<group>"; };
+		B275DFF515097FD000D6E7C1 /* PEPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEPageView.h; sourceTree = "<group>"; };
+		B275DFF615097FD000D6E7C1 /* PEPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PEPageView.m; sourceTree = "<group>"; };
 		B2C4DF6E1509622800ABF21F /* Paginator Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Paginator Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2C4DF721509622800ABF21F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B2C4DF741509622800ABF21F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -100,6 +103,8 @@
 				B2C4DF90150962AD00ABF21F /* PEAppDelegate.m */,
 				B275DFCC1509656F00D6E7C1 /* PERootViewController.h */,
 				B275DFCD1509656F00D6E7C1 /* PERootViewController.m */,
+				B275DFF515097FD000D6E7C1 /* PEPageView.h */,
+				B275DFF615097FD000D6E7C1 /* PEPageView.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -211,6 +216,7 @@
 				B2C4DF96150962AD00ABF21F /* PEAppDelegate.m in Sources */,
 				B2C4DF97150962AD00ABF21F /* main.m in Sources */,
 				B275DFCE1509657000D6E7C1 /* PERootViewController.m in Sources */,
+				B275DFF715097FD000D6E7C1 /* PEPageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

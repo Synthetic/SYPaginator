@@ -7,6 +7,8 @@
 //
 
 #import "SYPaginatorView.h"
+#import "SYPageView.h"
+#import "SYPaginatorScrollView.h"
 
 @interface SYPaginatorView () <UIScrollViewDelegate>
 - (NSUInteger)_numberOfPages;
@@ -17,7 +19,8 @@
 @end
 
 @implementation SYPaginatorView {
-	NSMutableArray *_views;
+	NSMutableArray  *_views;
+	NSMutableDictionary *_reuseablePages;
 	BOOL _pageControlUsed;
 }
 
@@ -25,17 +28,16 @@
 @synthesize pageControl = _pageControl;
 @synthesize dataSource = _dataSource;
 @synthesize delegate = _delegate;
-@synthesize views = _views;
 @synthesize pageGap = _pageGap;
 @synthesize pagesToPreload = _pagesToPreload;
 @synthesize swipeableRect = _swipeableRect;
 
-- (void)setCurrentPage:(NSUInteger)targetPage {
-	[self setCurrentPage:targetPage animated:YES];
+- (void)setCurrentPageIndex:(NSUInteger)targetPage {
+	[self setCurrentPageIndex:targetPage animated:YES];
 }
 
 
-- (NSUInteger)currentPage {
+- (NSUInteger)currentPageIndex {
 	return (NSUInteger)_pageControl.currentPage;
 }
 
@@ -65,7 +67,7 @@
 	self.dataSource = nil;
 	_scrollView.delegate = nil;
 	
-	[_views removeAllObjects];
+	[_reuseablePages removeAllObjects];
 }
 
 
@@ -78,14 +80,14 @@
 		self.pagesToPreload = 1;
 		
 		// Scroll view
-		_scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
+		_scrollView = [[SYPaginatorScrollView alloc] initWithFrame:self.bounds];
 		_scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 		_scrollView.pagingEnabled = YES;
-		_scrollView.delegate = self;
 		_scrollView.showsVerticalScrollIndicator = NO;
 		_scrollView.showsHorizontalScrollIndicator = NO;
 		_scrollView.alwaysBounceHorizontal = YES;
 		_scrollView.scrollsToTop = NO;
+		[(SYPaginatorScrollView *)_scrollView setPrivateDelegate:self];
 		[self addSubview:_scrollView];
 		
 		// Page control
@@ -125,7 +127,7 @@
 
 - (void)setFrame:(CGRect)frame {
 	[super setFrame:frame];
-	self.currentPage = self.currentPage;
+	self.currentPageIndex = self.currentPageIndex;
 }
 
 
@@ -164,11 +166,11 @@
     }
 	
 	// Reload current page
-	self.currentPage = self.currentPage;
+	self.currentPageIndex = self.currentPageIndex;
 }
 
 
-- (void)setCurrentPage:(NSUInteger)targetPage animated:(BOOL)animated {
+- (void)setCurrentPageIndex:(NSUInteger)targetPage animated:(BOOL)animated {
 	if (_delegate && [_delegate respondsToSelector:@selector(paginatorViewDidBeginPaging:)]) {
 		[_delegate paginatorViewDidBeginPaging:self];
 	}
@@ -191,7 +193,7 @@
 	}
 		
 	if (_delegate && [_delegate respondsToSelector:@selector(paginatorView:didScrollToPage:)]) {
-		[_delegate paginatorView:self didScrollToPage:self.currentPage];
+		[_delegate paginatorView:self didScrollToPage:self.currentPageIndex];
 	}
 }
 
@@ -203,11 +205,38 @@
 }
 
 
+- (UIView *)viewAtPage:(NSUInteger)page {
+	UIView *view = [_views objectAtIndex:page];
+	if ([view isKindOfClass:[UIView class]]) {
+		return view;
+	}
+	return nil;
+}
+
+
+- (id)dequeueReusableViewWithIdentifier:(NSString *)identifier {
+	if (!identifier) {
+		return nil;
+	}
+	
+	NSMutableArray *pages = [_reuseablePages objectForKey:identifier];
+	if (!pages || [pages count] == 0) {
+		return nil;
+	}
+	
+	SYPageView *page = [pages lastObject];
+	[pages removeObject:page];
+	
+	[page prepareForReuse];
+	return page;
+}
+
+
 #pragma mark - Actions
 
 - (void)_pageControlChanged:(id)sender {
 	// Reset to update scroll view. Kinda ugly, I know.
-	self.currentPage = self.currentPage;
+	self.currentPageIndex = self.currentPageIndex;
 }
 
 
@@ -256,7 +285,7 @@
 - (void)_cleanup {
 	for (NSUInteger i = 0; i < [_views count]; i++) {
 		UIView *view = [_views objectAtIndex:i];
-		if ([view isKindOfClass:[UIView class]] && i != self.currentPage) {
+		if ([view isKindOfClass:[UIView class]] && i != self.currentPageIndex) {
 			[view removeFromSuperview];
 			[_views replaceObjectAtIndex:i withObject:[NSNull null]];
 		}
@@ -291,10 +320,10 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
 	if (_delegate && [_delegate respondsToSelector:@selector(paginator:didScrollToPage:)]) {
-		[_delegate paginatorView:self didScrollToPage:self.currentPage];
+		[_delegate paginatorView:self didScrollToPage:self.currentPageIndex];
 	}
 	
-	[self _loadPagesToPreloadAroundPageAtIndex:self.currentPage];
+	[self _loadPagesToPreloadAroundPageAtIndex:self.currentPageIndex];
 	
 	_pageControlUsed = NO;
 }

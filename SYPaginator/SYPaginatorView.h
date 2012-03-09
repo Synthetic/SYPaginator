@@ -19,22 +19,26 @@
  */
 @interface SYPaginatorView : UIView
 
-@property (nonatomic, readonly) UIScrollView *scrollView;
-@property (nonatomic, readonly) UIPageControl *pageControl;
-@property (nonatomic, readonly) NSArray *views;
-
-@property (nonatomic) NSUInteger currentPage;
-@property (nonatomic, readonly) NSUInteger numberOfPages;
+// Configuring
 @property (nonatomic, unsafe_unretained) id<SYPaginatorViewDataSource> dataSource;
 @property (nonatomic, unsafe_unretained) id<SYPaginatorViewDelegate> delegate;
-@property (nonatomic) CGFloat pageGap;
-@property (nonatomic) NSUInteger pagesToPreload;
-@property (nonatomic) CGRect swipeableRect;
+
+// UI
+@property (nonatomic, strong, readonly) UIScrollView *scrollView;
+@property (nonatomic, strong, readonly) UIPageControl *pageControl;
+
+@property (nonatomic, assign) NSUInteger currentPageIndex;
+@property (nonatomic, assign, readonly) NSUInteger numberOfPages;
+@property (nonatomic, assign) CGFloat pageGap;
+@property (nonatomic, assign) NSUInteger pagesToPreload;
+@property (nonatomic, assign) CGRect swipeableRect;
 
 // Managing data
 - (void)reloadData;
-- (void)setCurrentPage:(NSUInteger)targetPage animated:(BOOL)animated;
+- (void)setCurrentPageIndex:(NSUInteger)targetPage animated:(BOOL)animated;
 - (CGRect)frameForViewAtPage:(NSUInteger)page;
+- (id)viewAtPage:(NSUInteger)page;
+- (id)dequeueReusableViewWithIdentifier:(NSString *)identifier;
 
 @end
 
@@ -54,6 +58,7 @@
 @optional
 
 - (void)paginatorViewDidBeginPaging:(SYPaginatorView *)paginator;
+- (void)paginatorView:(SYPaginatorView *)paginator willDisplayView:(UIView *)view atIndex:(NSUInteger)pageIndex;
 - (void)paginatorView:(SYPaginatorView *)paginator didScrollToPage:(NSUInteger)page;
 
 @end

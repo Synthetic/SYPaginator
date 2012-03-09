@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B275DFEF1509783500D6E7C1 /* SYPageView.h in Headers */ = {isa = PBXBuildFile; fileRef = B275DFED1509783500D6E7C1 /* SYPageView.h */; };
+		B275DFF01509783500D6E7C1 /* SYPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = B275DFEE1509783500D6E7C1 /* SYPageView.m */; };
+		B275DFF31509788C00D6E7C1 /* SYPaginatorScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = B275DFF11509788C00D6E7C1 /* SYPaginatorScrollView.h */; };
+		B275DFF41509788C00D6E7C1 /* SYPaginatorScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = B275DFF21509788C00D6E7C1 /* SYPaginatorScrollView.m */; };
 		B2C4DF571509621B00ABF21F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2C4DF561509621B00ABF21F /* Foundation.framework */; };
 		B2C4DFAE1509631500ABF21F /* SYPaginatorView.h in Headers */ = {isa = PBXBuildFile; fileRef = B2C4DFA91509631500ABF21F /* SYPaginatorView.h */; };
 		B2C4DFAF1509631500ABF21F /* SYPaginatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C4DFAA1509631500ABF21F /* SYPaginatorView.m */; };
@@ -16,6 +20,10 @@
 
 /* Begin PBXFileReference section */
 		B275DFCB150964F100D6E7C1 /* SYPaginator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SYPaginator.h; sourceTree = "<group>"; };
+		B275DFED1509783500D6E7C1 /* SYPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPageView.h; sourceTree = "<group>"; };
+		B275DFEE1509783500D6E7C1 /* SYPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPageView.m; sourceTree = "<group>"; };
+		B275DFF11509788C00D6E7C1 /* SYPaginatorScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPaginatorScrollView.h; sourceTree = "<group>"; };
+		B275DFF21509788C00D6E7C1 /* SYPaginatorScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPaginatorScrollView.m; sourceTree = "<group>"; };
 		B2C4DF531509621B00ABF21F /* libSYPaginator.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSYPaginator.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2C4DF561509621B00ABF21F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B2C4DFA91509631500ABF21F /* SYPaginatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPaginatorView.h; sourceTree = "<group>"; };
@@ -69,6 +77,10 @@
 				B2C4DFAA1509631500ABF21F /* SYPaginatorView.m */,
 				B2C4DFAB1509631500ABF21F /* SYPaginatorViewController.h */,
 				B2C4DFAC1509631500ABF21F /* SYPaginatorViewController.m */,
+				B275DFED1509783500D6E7C1 /* SYPageView.h */,
+				B275DFEE1509783500D6E7C1 /* SYPageView.m */,
+				B275DFF11509788C00D6E7C1 /* SYPaginatorScrollView.h */,
+				B275DFF21509788C00D6E7C1 /* SYPaginatorScrollView.m */,
 			);
 			path = SYPaginator;
 			sourceTree = "<group>";
@@ -82,6 +94,8 @@
 			files = (
 				B2C4DFAE1509631500ABF21F /* SYPaginatorView.h in Headers */,
 				B2C4DFB01509631500ABF21F /* SYPaginatorViewController.h in Headers */,
+				B275DFEF1509783500D6E7C1 /* SYPageView.h in Headers */,
+				B275DFF31509788C00D6E7C1 /* SYPaginatorScrollView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,6 +152,8 @@
 			files = (
 				B2C4DFAF1509631500ABF21F /* SYPaginatorView.m in Sources */,
 				B2C4DFB11509631500ABF21F /* SYPaginatorViewController.m in Sources */,
+				B275DFF01509783500D6E7C1 /* SYPageView.m in Sources */,
+				B275DFF41509788C00D6E7C1 /* SYPaginatorScrollView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

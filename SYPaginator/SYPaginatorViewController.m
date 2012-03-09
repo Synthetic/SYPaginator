@@ -9,18 +9,18 @@
 #import "SYPaginatorViewController.h"
 
 @interface SYPaginatorViewController()
-- (void)_initializePaginatorViewController;
+- (void)_initialize;
 @end
 
 @implementation SYPaginatorViewController
 
-@synthesize paginator = _paginator;
+@synthesize paginatorView = _paginator;
 
 #pragma mark - NSObject
 
 - (id)init {
 	if ((self = [super init])) {
-		[self _initializePaginatorViewController];
+		[self _initialize];
 	}
 	return self;
 }
@@ -28,6 +28,7 @@
 
 - (void)dealloc {
 	_paginator.dataSource = nil;
+	_paginator.delegate = nil;
 }
 
 
@@ -35,10 +36,11 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
 	if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-		[self _initializePaginatorViewController];
+		[self _initialize];
 	}
 	return self;
 }
+
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
@@ -48,10 +50,17 @@
 }
 
 
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	[_paginator reloadData];
+}
+
+
 #pragma mark - Private
 
-- (void)_initializePaginatorViewController {
+- (void)_initialize {
 	_paginator = [[SYPaginatorView alloc] initWithFrame:CGRectZero];
+	_paginator.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	_paginator.dataSource = self;
 	_paginator.delegate = self;
 }

@@ -7,12 +7,38 @@
 //
 
 #import "PERootViewController.h"
+#import "PEPageView.h"
 
 @implementation PERootViewController
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	self.title = @"Paginator";
+	self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+	
+	self.view.backgroundColor = [UIColor blackColor];
+	self.paginatorView.pageGap = 30.0f;
+}
+
+
+#pragma mark - SYPaginatorViewDataSource
+
+- (NSUInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginator {
+	return 10;
+}
+
+
+- (UIView *)paginatorView:(SYPaginatorView *)paginator viewForPage:(NSUInteger)page {
+	static NSString *identifier = @"identifier";
+	
+	PEPageView *view = [paginator dequeueReusableViewWithIdentifier:identifier];
+	if (!view) {
+		view = [[PEPageView alloc] initWithReuseIdentifier:identifier];
+	}
+	
+	view.textLabel.text = [NSString stringWithFormat:@"Page %i", page + 1];
+	
+	return view;
 }
 
 @end
