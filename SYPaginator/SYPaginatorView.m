@@ -28,7 +28,7 @@
 @synthesize pageControl = _pageControl;
 @synthesize dataSource = _dataSource;
 @synthesize delegate = _delegate;
-@synthesize pageGap = _pageGap;
+@synthesize pageGapWidth = _pageGapWidth;
 @synthesize pagesToPreload = _pagesToPreload;
 @synthesize swipeableRect = _swipeableRect;
 
@@ -47,8 +47,8 @@
 }
 
 
-- (void)setPageGap:(CGFloat)pageGap {
-	_pageGap = pageGap;
+- (void)setPageGapWidth:(CGFloat)pageGap {
+	_pageGapWidth = pageGap;
 	
 	CGRect rect = _scrollView.frame;
 	rect.origin.x -= roundf(pageGap / 2.0f);
@@ -115,7 +115,7 @@
 		if (page >= [_views count]) {
 			break;
 		}
-		UIView *view = [_views objectAtIndex:page];
+		UIView *view = [self viewAtPage:page];
 		if (![view isKindOfClass:[UIView class]]) {
 			continue;
 		}
@@ -161,10 +161,6 @@
 		[_views removeAllObjects];
 	}
 	
-	for (NSUInteger i = 0; i < numberOfPages; i++) {
-		[_views addObject:[NSNull null]];
-    }
-	
 	// Reload current page
 	self.currentPageIndex = self.currentPageIndex;
 }
@@ -184,7 +180,7 @@
 	[self _loadPage:targetPage];
 	[self _loadPagesToPreloadAroundPageAtIndex:targetPage];
 	
-	CGFloat targetX = [self _offsetForPage:targetPage] - roundf(_pageGap / 2.0f);
+	CGFloat targetX = [self _offsetForPage:targetPage] - roundf(_pageGapWidth / 2.0f);
 	if (_scrollView.contentOffset.x != targetX) {
 		CGSize size = _scrollView.bounds.size;
 		CGRect rect = CGRectMake(targetX, 0.0f, size.width, size.height);
@@ -201,11 +197,15 @@
 - (CGRect)frameForViewAtPage:(NSUInteger)page {
 	CGSize size = _scrollView.frame.size;
 	CGFloat x = [self _offsetForPage:page];
-	return CGRectMake(x, 0.0f, size.width - _pageGap, size.height);
+	return CGRectMake(x, 0.0f, size.width - _pageGapWidth, size.height);
 }
 
 
 - (UIView *)viewAtPage:(NSUInteger)page {
+	if (_views.count >= page) {
+		return nil;
+	}
+	
 	UIView *view = [_views objectAtIndex:page];
 	if ([view isKindOfClass:[UIView class]]) {
 		return view;
@@ -248,18 +248,22 @@
 
 
 - (void)_loadPage:(NSUInteger)page {
-	if (page >= [self _numberOfPages] || !_views || page >= [_views count]) {
+	if (page >= [self _numberOfPages] || !_views) {
 		return;
 	}
 	
 	// Replace the placeholder if necessary
-	UIView *view = [_views objectAtIndex:page];
-	if (!view || (NSNull *)view == [NSNull null]) {
+	UIView *view = [self viewAtPage:page];
+	if (!view) {
 		view = [self.dataSource paginatorView:self viewForPage:page];
 		view.autoresizingMask = UIViewAutoresizingNone;
 		
 		if (view) {
-			[_views replaceObjectAtIndex:(NSUInteger)page withObject:view];			
+			if (_views.count == page) {
+				[_views addObject:view];
+			} else {
+				[_views replaceObjectAtIndex:(NSUInteger)page withObject:view];
+			}
 			[_scrollView addSubview:view];
 			view.frame = [self frameForViewAtPage:page];
 		}
@@ -278,7 +282,7 @@
 
 
 - (CGFloat)_offsetForPage:(NSUInteger)page {
-	return (page == 0) ? roundf(_pageGap / 2.0f) : (_scrollView.bounds.size.width * page) + roundf(_pageGap / 2.0f);
+	return (page == 0) ? roundf(_pageGapWidth / 2.0f) : (_scrollView.bounds.size.width * page) + roundf(_pageGapWidth / 2.0f);
 }
 
 
@@ -287,9 +291,9 @@
 		UIView *view = [_views objectAtIndex:i];
 		if ([view isKindOfClass:[UIView class]] && i != self.currentPageIndex) {
 			[view removeFromSuperview];
-			[_views replaceObjectAtIndex:i withObject:[NSNull null]];
 		}
 	}
+	[_views removeAllObjects];
 }
 
 

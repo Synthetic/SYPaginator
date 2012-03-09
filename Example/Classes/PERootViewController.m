@@ -17,7 +17,7 @@
 	self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 	
 	self.view.backgroundColor = [UIColor blackColor];
-	self.paginatorView.pageGap = 30.0f;
+	self.paginatorView.pageGapWidth = 30.0f;
 }
 
 

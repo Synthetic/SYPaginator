@@ -29,7 +29,7 @@
 
 @property (nonatomic, assign) NSUInteger currentPageIndex;
 @property (nonatomic, assign, readonly) NSUInteger numberOfPages;
-@property (nonatomic, assign) CGFloat pageGap;
+@property (nonatomic, assign) CGFloat pageGapWidth;
 @property (nonatomic, assign) NSUInteger pagesToPreload;
 @property (nonatomic, assign) CGRect swipeableRect;
 
