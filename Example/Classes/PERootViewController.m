@@ -36,7 +36,7 @@
 		view = [[PEPageView alloc] initWithReuseIdentifier:identifier];
 	}
 	
-	view.textLabel.text = [NSString stringWithFormat:@"Page %i", page + 1];
+	view.textLabel.text = [NSString stringWithFormat:@"Page %i of %i", page + 1, paginator.numberOfPages];
 	
 	return view;
 }
