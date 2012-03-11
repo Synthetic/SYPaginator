@@ -24,7 +24,7 @@
 #pragma mark - SYPaginatorViewDataSource
 
 - (NSUInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginator {
-	return 10;
+	return 99999;
 }
 
 

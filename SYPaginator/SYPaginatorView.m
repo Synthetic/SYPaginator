@@ -11,7 +11,6 @@
 #import "SYPaginatorScrollView.h"
 
 @interface SYPaginatorView () <UIScrollViewDelegate>
-- (NSUInteger)_numberOfPages;
 - (void)_loadPage:(NSUInteger)page;
 - (void)_loadPagesToPreloadAroundPageAtIndex:(NSUInteger)index;
 - (CGFloat)_offsetForPage:(NSUInteger)page;
@@ -43,7 +42,7 @@
 
 
 - (NSUInteger)numberOfPages {
-	return (NSUInteger)_pageControl.numberOfPages;
+	return [self.dataSource numberOfPagesForPaginatorView:self];
 }
 
 
@@ -108,7 +107,7 @@
 - (void)layoutSubviews {
 	[super layoutSubviews];
 	
-	NSUInteger numberOfPages = [self _numberOfPages];
+	NSUInteger numberOfPages = [self numberOfPages];
 	_scrollView.contentSize = CGSizeMake(_scrollView.bounds.size.width * numberOfPages, _scrollView.bounds.size.height);
 	
 	for (NSUInteger page = 0; page < numberOfPages; page++) {
@@ -143,10 +142,17 @@
 #pragma mark - Managing data
 
 - (void)reloadData {
-	NSUInteger numberOfPages = [self _numberOfPages];
+	NSUInteger numberOfPages = [self numberOfPages];
 	CGSize size = _scrollView.bounds.size;
 	_scrollView.contentSize = CGSizeMake(size.width * numberOfPages, size.height);
-	_pageControl.numberOfPages = (NSInteger)numberOfPages;
+	
+	if (numberOfPages <= 10) {
+		_pageControl.numberOfPages = (NSInteger)numberOfPages;
+		_pageControl.hidden = NO;
+	} else {
+		_pageControl.numberOfPages = 0;
+		_pageControl.hidden = YES;
+	}
 	
 	// Setup views
 	if (!_views) {
@@ -171,11 +177,13 @@
 		[_delegate paginatorViewDidBeginPaging:self];
 	}
 	
-	if (!targetPage > [self _numberOfPages]) {
+	if (!targetPage > [self numberOfPages]) {
 		targetPage = 0;
 	}
 	
-	_pageControl.currentPage = (NSInteger)targetPage;
+	if (!_pageControl.hidden) {
+		_pageControl.currentPage = (NSInteger)targetPage;
+	}
 	
 	[self _loadPage:targetPage];
 	[self _loadPagesToPreloadAroundPageAtIndex:targetPage];
@@ -242,13 +250,9 @@
 
 #pragma mark - Private
 
-- (NSUInteger)_numberOfPages {
-	return [self.dataSource numberOfPagesForPaginatorView:self];
-}
-
 
 - (void)_loadPage:(NSUInteger)page {
-	if (page >= [self _numberOfPages] || !_views) {
+	if (page >= [self numberOfPages] || !_views) {
 		return;
 	}
 	
