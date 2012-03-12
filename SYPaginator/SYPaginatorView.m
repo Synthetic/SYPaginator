@@ -10,8 +10,6 @@
 #import "SYPageView.h"
 #import "SYPaginatorScrollView.h"
 
-static NSInteger kSYPaginatorViewPadding = 2;
-
 @interface SYPaginatorView () <UIScrollViewDelegate>
 - (void)_loadPage:(NSInteger)page;
 - (void)_loadPagesToPreloadAroundPageAtIndex:(NSUInteger)index;
@@ -19,6 +17,7 @@ static NSInteger kSYPaginatorViewPadding = 2;
 - (void)_cleanup;
 - (void)_removeViewAtIndex:(NSUInteger)index;
 - (void)_reuseViewAtIndex:(NSUInteger)index;
+- (void)_reusePages;
 @end
 
 @implementation SYPaginatorView {
@@ -76,7 +75,7 @@ static NSInteger kSYPaginatorViewPadding = 2;
 	if ((self = [super initWithFrame:frame])) {
 		self.clipsToBounds = YES;
 		self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-		self.pagesToPreload = 1;
+		self.pagesToPreload = 2;
 		
 		// Scroll view
 		_scrollView = [[SYPaginatorScrollView alloc] initWithFrame:self.bounds];
@@ -251,33 +250,7 @@ static NSInteger kSYPaginatorViewPadding = 2;
 			[_scrollView addSubview:view];
 			view.frame = [self frameForViewAtPage:page];
 			
-			// Check for reuse
-			// TODO: This could be faster
-			NSArray *allKeys = [_views allKeys];
-			NSInteger numberOfKeys = allKeys.count;
-			if (numberOfKeys - kSYPaginatorViewPadding - kSYPaginatorViewPadding > 0) {
-				NSArray *sortedKeys = [allKeys sortedArrayUsingSelector:@selector(compare:)];
-				NSInteger currentIndex = [sortedKeys indexOfObject:[NSNumber numberWithInteger:page]];
-				
-				// Remove before current index
-				NSInteger location = currentIndex + kSYPaginatorViewPadding;
-				NSInteger length = numberOfKeys - location - 1;
-				if (location > 0 && length > 0) {
-					NSArray *keys = [sortedKeys subarrayWithRange:NSMakeRange(location, length)];
-					for (NSNumber *key in keys) {
-						[self _reuseViewAtIndex:key.integerValue];
-					}
-				}
-				
-				// Remove after current index
-				length = currentIndex - kSYPaginatorViewPadding;
-				if (currentIndex - kSYPaginatorViewPadding > 0 && length > 0) {
-					NSArray *keys = [sortedKeys subarrayWithRange:NSMakeRange(0, length)];
-					for (NSNumber *key in keys) {
-						[self _reuseViewAtIndex:key.integerValue];
-					}
-				}
-			}
+			[self _reusePages];
 		}
 	}
 }
@@ -339,6 +312,37 @@ static NSInteger kSYPaginatorViewPadding = 2;
 	}
 	
 	[set addObject:view];
+}
+
+
+- (void)_reusePages {
+	// Check for reuse
+	// TODO: This could be faster
+	NSArray *allKeys = [_views allKeys];
+	NSInteger numberOfKeys = allKeys.count;
+	if (numberOfKeys - _pagesToPreload - _pagesToPreload > 0) {
+		NSArray *sortedKeys = [allKeys sortedArrayUsingSelector:@selector(compare:)];
+		NSInteger currentIndex = [sortedKeys indexOfObject:[NSNumber numberWithInteger:self.currentPageIndex]];
+		
+		// Remove before current index
+		NSInteger location = currentIndex + _pagesToPreload;
+		NSInteger length = numberOfKeys - location - 1;
+		if (location > 0 && length > 0) {
+			NSArray *keys = [sortedKeys subarrayWithRange:NSMakeRange(location, length)];
+			for (NSNumber *key in keys) {
+				[self _reuseViewAtIndex:key.integerValue];
+			}
+		}
+		
+		// Remove after current index
+		length = currentIndex - _pagesToPreload;
+		if (currentIndex - _pagesToPreload > 0 && length > 0) {
+			NSArray *keys = [sortedKeys subarrayWithRange:NSMakeRange(0, length)];
+			for (NSNumber *key in keys) {
+				[self _reuseViewAtIndex:key.integerValue];
+			}
+		}
+	}
 }
 
 
