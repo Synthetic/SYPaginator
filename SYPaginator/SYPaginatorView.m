@@ -141,10 +141,10 @@ static NSInteger kSYPaginatorViewPadding = 2;
 	
 	if (numberOfPages <= 10) {
 		_pageControl.numberOfPages = (NSInteger)numberOfPages;
-		_pageControl.hidden = NO;
+//		_pageControl.hidden = NO;
 	} else {
 		_pageControl.numberOfPages = 0;
-		_pageControl.hidden = YES;
+//		_pageControl.hidden = YES;
 	}
 	
 	// Setup views
@@ -236,7 +236,7 @@ static NSInteger kSYPaginatorViewPadding = 2;
 
 
 - (void)_loadPage:(NSInteger)page {
-	if (!_views || page < 0) {
+	if (!_views || page < 0 || page >= self.numberOfPages) {
 		return;
 	}
 	
@@ -322,6 +322,12 @@ static NSInteger kSYPaginatorViewPadding = 2;
 
 - (void)_reuseViewAtIndex:(NSUInteger)index {
 	SYPageView *view = [self viewAtPage:index];
+	if (!view.reuseIdentifier) {
+		NSAssert(view.reuseIdentifier, @"[SYPaginatorView] You should specify a reuse identifier for you SYPageViews.");
+		[self _removeViewAtIndex:index];
+		return;
+	}
+	
 	[view removeFromSuperview];
 	[_views removeObjectForKey:[NSNumber numberWithInteger:index]];
 	[view prepareForReuse];
