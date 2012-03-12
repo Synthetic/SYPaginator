@@ -10,15 +10,19 @@
 #import "SYPageView.h"
 #import "SYPaginatorScrollView.h"
 
+static NSInteger kSYPaginatorViewPadding = 2;
+
 @interface SYPaginatorView () <UIScrollViewDelegate>
-- (void)_loadPage:(NSUInteger)page;
+- (void)_loadPage:(NSInteger)page;
 - (void)_loadPagesToPreloadAroundPageAtIndex:(NSUInteger)index;
 - (CGFloat)_offsetForPage:(NSUInteger)page;
 - (void)_cleanup;
+- (void)_removeViewAtIndex:(NSUInteger)index;
+- (void)_reuseViewAtIndex:(NSUInteger)index;
 @end
 
 @implementation SYPaginatorView {
-	NSMutableArray  *_views;
+	NSMutableDictionary  *_views;
 	NSMutableDictionary *_reuseablePages;
 	BOOL _pageControlUsed;
 }
@@ -30,14 +34,10 @@
 @synthesize pageGapWidth = _pageGapWidth;
 @synthesize pagesToPreload = _pagesToPreload;
 @synthesize swipeableRect = _swipeableRect;
+@synthesize currentPageIndex = _currentPageIndex;
 
 - (void)setCurrentPageIndex:(NSUInteger)targetPage {
 	[self setCurrentPageIndex:targetPage animated:YES];
-}
-
-
-- (NSUInteger)currentPageIndex {
-	return (NSUInteger)_pageControl.currentPage;
 }
 
 
@@ -110,16 +110,9 @@
 	NSUInteger numberOfPages = [self numberOfPages];
 	_scrollView.contentSize = CGSizeMake(_scrollView.bounds.size.width * numberOfPages, _scrollView.bounds.size.height);
 	
-	for (NSUInteger page = 0; page < numberOfPages; page++) {
-		if (page >= [_views count]) {
-			break;
-		}
-		UIView *view = [self viewAtPage:page];
-		if (![view isKindOfClass:[UIView class]]) {
-			continue;
-		}
-		
-		view.frame = [self frameForViewAtPage:page];
+	for (NSNumber *key in _views) {
+		UIView *view = [_views objectForKey:key];
+		view.frame = [self frameForViewAtPage:key.integerValue];
 	}
 }
 
@@ -156,16 +149,14 @@
 	
 	// Setup views
 	if (!_views) {
-		_views = [[NSMutableArray alloc] initWithCapacity:numberOfPages];
-	} else {
-		for (UIView *view in _views) {
-			if (![view isKindOfClass:[UIView class]]) {
-				continue;
-			}
-			[view removeFromSuperview];
-		}
-		[_views removeAllObjects];
+		_views = [[NSMutableDictionary alloc] init];
 	}
+	
+	if (!_reuseablePages) {
+		_reuseablePages = [[NSMutableDictionary alloc] init];
+	}
+	
+	// TODO: Refresh all pages
 	
 	// Reload current page
 	self.currentPageIndex = self.currentPageIndex;
@@ -180,6 +171,8 @@
 	if (!targetPage > [self numberOfPages]) {
 		targetPage = 0;
 	}
+	
+	_currentPageIndex = targetPage;
 	
 	if (!_pageControl.hidden) {
 		_pageControl.currentPage = (NSInteger)targetPage;
@@ -210,15 +203,7 @@
 
 
 - (UIView *)viewAtPage:(NSUInteger)page {
-	if (_views.count >= page) {
-		return nil;
-	}
-	
-	UIView *view = [_views objectAtIndex:page];
-	if ([view isKindOfClass:[UIView class]]) {
-		return view;
-	}
-	return nil;
+	return [_views objectForKey:[NSNumber numberWithInteger:page]];
 }
 
 
@@ -227,15 +212,14 @@
 		return nil;
 	}
 	
-	NSMutableArray *pages = [_reuseablePages objectForKey:identifier];
+	NSMutableSet *pages = [_reuseablePages objectForKey:identifier];
 	if (!pages || [pages count] == 0) {
 		return nil;
 	}
 	
-	SYPageView *page = [pages lastObject];
+	SYPageView *page = [pages anyObject];
 	[pages removeObject:page];
 	
-	[page prepareForReuse];
 	return page;
 }
 
@@ -251,8 +235,8 @@
 #pragma mark - Private
 
 
-- (void)_loadPage:(NSUInteger)page {
-	if (page >= [self numberOfPages] || !_views) {
+- (void)_loadPage:(NSInteger)page {
+	if (!_views || page < 0) {
 		return;
 	}
 	
@@ -263,13 +247,37 @@
 		view.autoresizingMask = UIViewAutoresizingNone;
 		
 		if (view) {
-			if (_views.count == page) {
-				[_views addObject:view];
-			} else {
-				[_views replaceObjectAtIndex:(NSUInteger)page withObject:view];
-			}
+			[_views setObject:view forKey:[NSNumber numberWithInteger:page]];
 			[_scrollView addSubview:view];
 			view.frame = [self frameForViewAtPage:page];
+			
+			// Check for reuse
+			// TODO: This could be faster
+			NSArray *allKeys = [_views allKeys];
+			NSInteger numberOfKeys = allKeys.count;
+			if (numberOfKeys - kSYPaginatorViewPadding - kSYPaginatorViewPadding > 0) {
+				NSArray *sortedKeys = [allKeys sortedArrayUsingSelector:@selector(compare:)];
+				NSInteger currentIndex = [sortedKeys indexOfObject:[NSNumber numberWithInteger:page]];
+				
+				// Remove before current index
+				NSInteger location = currentIndex + kSYPaginatorViewPadding;
+				NSInteger length = numberOfKeys - location - 1;
+				if (location > 0 && length > 0) {
+					NSArray *keys = [sortedKeys subarrayWithRange:NSMakeRange(location, length)];
+					for (NSNumber *key in keys) {
+						[self _reuseViewAtIndex:key.integerValue];
+					}
+				}
+				
+				// Remove after current index
+				length = currentIndex - kSYPaginatorViewPadding;
+				if (currentIndex - kSYPaginatorViewPadding > 0 && length > 0) {
+					NSArray *keys = [sortedKeys subarrayWithRange:NSMakeRange(0, length)];
+					for (NSNumber *key in keys) {
+						[self _reuseViewAtIndex:key.integerValue];
+					}
+				}
+			}
 		}
 	}
 }
@@ -291,13 +299,40 @@
 
 
 - (void)_cleanup {
-	for (NSUInteger i = 0; i < [_views count]; i++) {
-		UIView *view = [_views objectAtIndex:i];
-		if ([view isKindOfClass:[UIView class]] && i != self.currentPageIndex) {
-			[view removeFromSuperview];
+	NSMutableSet *keysToRemove = [[NSMutableSet alloc] init];
+	for (NSNumber *key in _views) {
+		if (key.integerValue != self.currentPageIndex) {
+			[keysToRemove addObject:key];
 		}
 	}
-	[_views removeAllObjects];
+	
+	for (NSNumber *key in keysToRemove) {
+		[self _removeViewAtIndex:key.integerValue];
+	}
+	
+	[_reuseablePages removeAllObjects];
+}
+
+
+- (void)_removeViewAtIndex:(NSUInteger)index {
+	[[self viewAtPage:index] removeFromSuperview];
+	[_views removeObjectForKey:[NSNumber numberWithInteger:index]];
+}
+
+
+- (void)_reuseViewAtIndex:(NSUInteger)index {
+	SYPageView *view = [self viewAtPage:index];
+	[view removeFromSuperview];
+	[_views removeObjectForKey:[NSNumber numberWithInteger:index]];
+	[view prepareForReuse];
+	
+	NSMutableSet *set = [_reuseablePages objectForKey:view.reuseIdentifier];
+	if (!set) {
+		set = [[NSMutableSet alloc] init];
+		[_reuseablePages setObject:set forKey:view.reuseIdentifier];
+	}
+	
+	[set addObject:view];
 }
 
 
@@ -311,7 +346,15 @@
 	CGFloat pageWidth = _scrollView.frame.size.width;
 	NSInteger page = floor((_scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
 	
-	_pageControl.currentPage = page;
+	if (_delegate && [_delegate respondsToSelector:@selector(paginatorViewDidBeginPaging:)]) {
+		[_delegate paginatorViewDidBeginPaging:self];
+	}
+	
+	_currentPageIndex = page;
+	
+	if (_delegate && [_delegate respondsToSelector:@selector(paginatorView:didScrollToPage:)]) {
+		[_delegate paginatorView:self didScrollToPage:self.currentPageIndex];
+	}
 	
 	[self _loadPage:page];
 }
