@@ -356,22 +356,14 @@
 	CGFloat pageWidth = _scrollView.frame.size.width;
 	NSInteger page = floor((_scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
 	
-	if (_delegate && [_delegate respondsToSelector:@selector(paginatorViewDidBeginPaging:)]) {
-		[_delegate paginatorViewDidBeginPaging:self];
-	}
-	
 	_currentPageIndex = page;
-	
-	if (_delegate && [_delegate respondsToSelector:@selector(paginatorView:didScrollToPage:)]) {
-		[_delegate paginatorView:self didScrollToPage:self.currentPageIndex];
-	}
 	
 	[self _loadPage:page];
 }
 
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-	if (_delegate && [_delegate respondsToSelector:@selector(paginatorDidBeginPaging:)]) {
+	if (_delegate && [_delegate respondsToSelector:@selector(paginatorViewDidBeginPaging:)]) {
 		[_delegate paginatorViewDidBeginPaging:self];
 	}
 	
@@ -380,7 +372,7 @@
 
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-	if (_delegate && [_delegate respondsToSelector:@selector(paginator:didScrollToPage:)]) {
+	if (_delegate && [_delegate respondsToSelector:@selector(paginatorView:didScrollToPage:)]) {
 		[_delegate paginatorView:self didScrollToPage:self.currentPageIndex];
 	}
 	
