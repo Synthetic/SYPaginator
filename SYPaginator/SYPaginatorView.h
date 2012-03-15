@@ -17,6 +17,7 @@ typedef enum {
 
 @protocol SYPaginatorViewDataSource;
 @protocol SYPaginatorViewDelegate;
+@class SYPageView;
 
 /**
  This class manages a paging UIScrollView and a UIPageControl.
@@ -42,8 +43,8 @@ typedef enum {
 - (void)reloadData;
 - (void)setCurrentPageIndex:(NSUInteger)targetPage animated:(BOOL)animated;
 - (CGRect)frameForPageAtIndex:(NSUInteger)page;
-- (id)pageForIndex:(NSUInteger)page;
-- (id)dequeueReusablePageWithIdentifier:(NSString *)identifier;
+- (SYPaginatorView *)pageForIndex:(NSUInteger)page;
+- (SYPaginatorView *)dequeueReusablePageWithIdentifier:(NSString *)identifier;
 //- (void)reloadPagesAtIndexes:(NSArray *)indexs withPageAnimation:(SYPageViewAnimation)animation;
 
 @end
@@ -54,7 +55,7 @@ typedef enum {
 @required
 
 - (NSUInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginatorView;
-- (UIView *)paginatorView:(SYPaginatorView *)paginatorView viewForPageAtIndex:(NSUInteger)pageIndex;
+- (SYPageView *)paginatorView:(SYPaginatorView *)paginatorView viewForPageAtIndex:(NSUInteger)pageIndex;
 
 @end
 

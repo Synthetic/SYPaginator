@@ -7,6 +7,7 @@
 //
 
 #import "SYPaginatorViewController.h"
+#import "SYPageView.h"
 
 @interface SYPaginatorViewController()
 - (void)_initialize;
@@ -73,7 +74,7 @@
 }
 
 
-- (UIView *)paginatorView:(SYPaginatorView *)paginator viewForPageAtIndex:(NSUInteger)page {
+- (SYPageView *)paginatorView:(SYPaginatorView *)paginator viewForPageAtIndex:(NSUInteger)page {
 	return nil;
 }
 
