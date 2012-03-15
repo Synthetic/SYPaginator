@@ -156,6 +156,7 @@
 	}
 	
 	// TODO: Refresh all pages
+	[_views removeAllObjects];
 	
 	// Reload current page
 	self.currentPageIndex = self.currentPageIndex;
