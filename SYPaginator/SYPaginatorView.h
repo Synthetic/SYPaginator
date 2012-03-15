@@ -53,8 +53,8 @@ typedef enum {
 
 @required
 
-- (NSUInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginator;
-- (UIView *)paginatorView:(SYPaginatorView *)paginator viewForPageAtIndex:(NSUInteger)page;
+- (NSUInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginatorView;
+- (UIView *)paginatorView:(SYPaginatorView *)paginatorView viewForPageAtIndex:(NSUInteger)pageIndex;
 
 @end
 
@@ -63,8 +63,8 @@ typedef enum {
 
 @optional
 
-- (void)paginatorViewDidBeginPaging:(SYPaginatorView *)paginator;
-- (void)paginatorView:(SYPaginatorView *)paginator willDisplayView:(UIView *)view atIndex:(NSUInteger)pageIndex;
-- (void)paginatorView:(SYPaginatorView *)paginator didScrollToPageAtIndex:(NSUInteger)page;
+- (void)paginatorViewDidBeginPaging:(SYPaginatorView *)paginatorView;
+- (void)paginatorView:(SYPaginatorView *)paginatorView willDisplayView:(UIView *)view atIndex:(NSUInteger)pageIndex;
+- (void)paginatorView:(SYPaginatorView *)paginatorView didScrollToPageAtIndex:(NSUInteger)pageIndex;
 
 @end

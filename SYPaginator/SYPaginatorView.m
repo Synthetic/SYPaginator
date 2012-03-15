@@ -156,6 +156,12 @@
 	}
 	
 	// TODO: Refresh all pages
+	for (NSNumber *key in _views) {
+		UIView *view = [_views objectForKey:key];
+		if ([view isKindOfClass:[UIView class]]) {
+			[view removeFromSuperview];
+		}
+	}
 	[_views removeAllObjects];
 	
 	// Reload current page
