@@ -18,6 +18,7 @@
 - (void)_removeViewAtIndex:(NSUInteger)index;
 - (void)_reuseViewAtIndex:(NSUInteger)index;
 - (void)_reusePages;
+- (void)_setCurrentPageIndex:(NSUInteger)targetPage animated:(BOOL)animated scroll:(BOOL)scroll;
 @end
 
 @implementation SYPaginatorView {
@@ -170,34 +171,7 @@
 
 
 - (void)setCurrentPageIndex:(NSUInteger)targetPage animated:(BOOL)animated {
-	if (_delegate && [_delegate respondsToSelector:@selector(paginatorViewDidBeginPaging:)]) {
-		[_delegate paginatorViewDidBeginPaging:self];
-	}
-	
-	if (!targetPage > [self numberOfPages]) {
-		targetPage = 0;
-	}
-	
-	_currentPageIndex = targetPage;
-	
-	if (!_pageControl.hidden) {
-		_pageControl.currentPage = (NSInteger)targetPage;
-	}
-	
-	[self _loadPage:targetPage];
-	[self _loadPagesToPreloadAroundPageAtIndex:targetPage];
-	
-	CGFloat targetX = [self _offsetForPage:targetPage] - roundf(_pageGapWidth / 2.0f);
-	if (_scrollView.contentOffset.x != targetX) {
-		CGSize size = _scrollView.bounds.size;
-		CGRect rect = CGRectMake(targetX, 0.0f, size.width, size.height);
-		[_scrollView scrollRectToVisible:rect animated:animated];
-		_pageControlUsed = YES;
-	}
-		
-	if (_delegate && [_delegate respondsToSelector:@selector(paginatorView:didScrollToPageAtIndex:)]) {
-		[_delegate paginatorView:self didScrollToPageAtIndex:self.currentPageIndex];
-	}
+	[self _setCurrentPageIndex:targetPage animated:animated scroll:YES];
 }
 
 
@@ -233,8 +207,7 @@
 #pragma mark - Actions
 
 - (void)_pageControlChanged:(id)sender {
-	// Reset to update scroll view. Kinda ugly, I know.
-	self.currentPageIndex = self.currentPageIndex;
+	self.currentPageIndex = _pageControl.currentPage;
 }
 
 
@@ -246,7 +219,6 @@
 		return;
 	}
 	
-	// Replace the placeholder if necessary
 	UIView *view = [self pageForIndex:page];
 	if (!view) {
 		view = [self.dataSource paginatorView:self viewForPageAtIndex:page];
@@ -353,6 +325,40 @@
 }
 
 
+- (void)_setCurrentPageIndex:(NSUInteger)targetPage animated:(BOOL)animated scroll:(BOOL)scroll {
+	if (scroll && _delegate && [_delegate respondsToSelector:@selector(paginatorViewDidBeginPaging:)]) {
+		[_delegate paginatorViewDidBeginPaging:self];
+	}
+	
+	if (!targetPage > [self numberOfPages]) {
+		targetPage = 0;
+	}
+	
+	_currentPageIndex = targetPage;
+	
+	if (!_pageControl.hidden) {
+		_pageControl.currentPage = (NSInteger)targetPage;
+	}
+	
+	[self _loadPage:targetPage];
+	[self _loadPagesToPreloadAroundPageAtIndex:targetPage];
+	
+	if (scroll) {	
+		CGFloat targetX = [self _offsetForPage:targetPage] - roundf(_pageGapWidth / 2.0f);
+		if (_scrollView.contentOffset.x != targetX) {
+			CGSize size = _scrollView.bounds.size;
+			CGRect rect = CGRectMake(targetX, 0.0f, size.width, size.height);
+			[_scrollView scrollRectToVisible:rect animated:animated];
+			_pageControlUsed = YES;
+		}
+		
+		if (_delegate && [_delegate respondsToSelector:@selector(paginatorView:didScrollToPageAtIndex:)]) {
+			[_delegate paginatorView:self didScrollToPageAtIndex:self.currentPageIndex];
+		}
+	}
+}
+
+
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender {
@@ -361,11 +367,9 @@
 	}
 	
 	CGFloat pageWidth = _scrollView.frame.size.width;
-	NSInteger page = floor((_scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+	NSInteger pageIndex = floor((_scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
 	
-	_currentPageIndex = page;
-	
-	[self _loadPage:page];
+	[self _setCurrentPageIndex:pageIndex animated:NO scroll:NO];
 }
 
 
