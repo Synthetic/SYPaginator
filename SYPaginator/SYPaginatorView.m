@@ -31,7 +31,7 @@
 @synthesize dataSource = _dataSource;
 @synthesize delegate = _delegate;
 @synthesize pageGapWidth = _pageGapWidth;
-@synthesize pagesToPreload = _pagesToPreload;
+@synthesize numberOfPagesToPreload = _pagesToPreload;
 @synthesize swipeableRect = _swipeableRect;
 @synthesize currentPageIndex = _currentPageIndex;
 
@@ -75,7 +75,7 @@
 	if ((self = [super initWithFrame:frame])) {
 		self.clipsToBounds = YES;
 		self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-		self.pagesToPreload = 2;
+		self.numberOfPagesToPreload = 2;
 		
 		// Scroll view
 		_scrollView = [[SYPaginatorScrollView alloc] initWithFrame:self.bounds];
@@ -111,7 +111,7 @@
 	
 	for (NSNumber *key in _views) {
 		UIView *view = [_views objectForKey:key];
-		view.frame = [self frameForViewAtPage:key.integerValue];
+		view.frame = [self frameForPageAtIndex:key.integerValue];
 	}
 }
 
@@ -189,25 +189,25 @@
 		_pageControlUsed = YES;
 	}
 		
-	if (_delegate && [_delegate respondsToSelector:@selector(paginatorView:didScrollToPage:)]) {
-		[_delegate paginatorView:self didScrollToPage:self.currentPageIndex];
+	if (_delegate && [_delegate respondsToSelector:@selector(paginatorView:didScrollToPageAtIndex:)]) {
+		[_delegate paginatorView:self didScrollToPageAtIndex:self.currentPageIndex];
 	}
 }
 
 
-- (CGRect)frameForViewAtPage:(NSUInteger)page {
+- (CGRect)frameForPageAtIndex:(NSUInteger)page {
 	CGSize size = _scrollView.frame.size;
 	CGFloat x = [self _offsetForPage:page];
 	return CGRectMake(x, 0.0f, size.width - _pageGapWidth, size.height);
 }
 
 
-- (UIView *)viewAtPage:(NSUInteger)page {
+- (UIView *)pageForIndex:(NSUInteger)page {
 	return [_views objectForKey:[NSNumber numberWithInteger:page]];
 }
 
 
-- (id)dequeueReusableViewWithIdentifier:(NSString *)identifier {
+- (id)dequeueReusablePageWithIdentifier:(NSString *)identifier {
 	if (!identifier) {
 		return nil;
 	}
@@ -241,15 +241,15 @@
 	}
 	
 	// Replace the placeholder if necessary
-	UIView *view = [self viewAtPage:page];
+	UIView *view = [self pageForIndex:page];
 	if (!view) {
-		view = [self.dataSource paginatorView:self viewForPage:page];
+		view = [self.dataSource paginatorView:self viewForPageAtIndex:page];
 		view.autoresizingMask = UIViewAutoresizingNone;
 		
 		if (view) {
 			[_views setObject:view forKey:[NSNumber numberWithInteger:page]];
 			[_scrollView addSubview:view];
-			view.frame = [self frameForViewAtPage:page];
+			view.frame = [self frameForPageAtIndex:page];
 			
 			[self _reusePages];
 		}
@@ -258,8 +258,8 @@
 
 
 - (void)_loadPagesToPreloadAroundPageAtIndex:(NSUInteger)index {
-	if (self.pagesToPreload > 0) {
-		for (NSInteger offset = 1; offset <= self.pagesToPreload; offset++) {
+	if (self.numberOfPagesToPreload > 0) {
+		for (NSInteger offset = 1; offset <= self.numberOfPagesToPreload; offset++) {
 			[self _loadPage:index + offset];
 			[self _loadPage:index - offset];
 		}
@@ -289,13 +289,13 @@
 
 
 - (void)_removeViewAtIndex:(NSUInteger)index {
-	[[self viewAtPage:index] removeFromSuperview];
+	[[self pageForIndex:index] removeFromSuperview];
 	[_views removeObjectForKey:[NSNumber numberWithInteger:index]];
 }
 
 
 - (void)_reuseViewAtIndex:(NSUInteger)index {
-	SYPageView *view = [self viewAtPage:index];
+	SYPageView *view = [self pageForIndex:index];
 	if (!view.reuseIdentifier) {
 		NSAssert(view.reuseIdentifier, @"[SYPaginatorView] You should specify a reuse identifier for you SYPageViews.");
 		[self _removeViewAtIndex:index];
@@ -373,8 +373,8 @@
 
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-	if (_delegate && [_delegate respondsToSelector:@selector(paginatorView:didScrollToPage:)]) {
-		[_delegate paginatorView:self didScrollToPage:self.currentPageIndex];
+	if (_delegate && [_delegate respondsToSelector:@selector(paginatorView:didScrollToPageAtIndex:)]) {
+		[_delegate paginatorView:self didScrollToPageAtIndex:self.currentPageIndex];
 	}
 	
 	[self _loadPagesToPreloadAroundPageAtIndex:self.currentPageIndex];

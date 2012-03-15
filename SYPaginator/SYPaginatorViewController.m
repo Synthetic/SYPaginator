@@ -73,7 +73,7 @@
 }
 
 
-- (UIView *)paginatorView:(SYPaginatorView *)paginator viewForPage:(NSUInteger)page {
+- (UIView *)paginatorView:(SYPaginatorView *)paginator viewForPageAtIndex:(NSUInteger)page {
 	return nil;
 }
 

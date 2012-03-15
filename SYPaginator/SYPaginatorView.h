@@ -9,6 +9,12 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+typedef enum {
+	SYPageViewAnimationNone,
+	SYPageViewAnimationTop,
+	SYPageViewAnimationBottom
+} SYPageViewAnimation;
+
 @protocol SYPaginatorViewDataSource;
 @protocol SYPaginatorViewDelegate;
 
@@ -30,15 +36,15 @@
 @property (nonatomic, assign) NSUInteger currentPageIndex;
 @property (nonatomic, assign, readonly) NSUInteger numberOfPages;
 @property (nonatomic, assign) CGFloat pageGapWidth;
-@property (nonatomic, assign) NSUInteger pagesToPreload;
+@property (nonatomic, assign) NSUInteger numberOfPagesToPreload;
 @property (nonatomic, assign) CGRect swipeableRect;
 
-// Managing data
 - (void)reloadData;
 - (void)setCurrentPageIndex:(NSUInteger)targetPage animated:(BOOL)animated;
-- (CGRect)frameForViewAtPage:(NSUInteger)page;
-- (id)viewAtPage:(NSUInteger)page;
-- (id)dequeueReusableViewWithIdentifier:(NSString *)identifier;
+- (CGRect)frameForPageAtIndex:(NSUInteger)page;
+- (id)pageForIndex:(NSUInteger)page;
+- (id)dequeueReusablePageWithIdentifier:(NSString *)identifier;
+//- (void)reloadPagesAtIndexes:(NSArray *)indexs withPageAnimation:(SYPageViewAnimation)animation;
 
 @end
 
@@ -48,7 +54,7 @@
 @required
 
 - (NSUInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginator;
-- (UIView *)paginatorView:(SYPaginatorView *)paginator viewForPage:(NSUInteger)page;
+- (UIView *)paginatorView:(SYPaginatorView *)paginator viewForPageAtIndex:(NSUInteger)page;
 
 @end
 
@@ -59,6 +65,6 @@
 
 - (void)paginatorViewDidBeginPaging:(SYPaginatorView *)paginator;
 - (void)paginatorView:(SYPaginatorView *)paginator willDisplayView:(UIView *)view atIndex:(NSUInteger)pageIndex;
-- (void)paginatorView:(SYPaginatorView *)paginator didScrollToPage:(NSUInteger)page;
+- (void)paginatorView:(SYPaginatorView *)paginator didScrollToPageAtIndex:(NSUInteger)page;
 
 @end
