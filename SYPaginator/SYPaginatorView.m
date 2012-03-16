@@ -22,7 +22,7 @@
 @end
 
 @implementation SYPaginatorView {
-	NSMutableDictionary  *_views;
+	NSMutableDictionary  *_pages;
 	NSMutableDictionary *_reuseablePages;
 	BOOL _pageControlUsed;
 }
@@ -110,8 +110,8 @@
 	NSUInteger numberOfPages = [self numberOfPages];
 	_scrollView.contentSize = CGSizeMake(_scrollView.bounds.size.width * numberOfPages, _scrollView.bounds.size.height);
 	
-	for (NSNumber *key in _views) {
-		UIView *view = [_views objectForKey:key];
+	for (NSNumber *key in _pages) {
+		UIView *view = [_pages objectForKey:key];
 		view.frame = [self frameForPageAtIndex:key.integerValue];
 	}
 }
@@ -135,35 +135,41 @@
 #pragma mark - Managing data
 
 - (void)reloadData {
+	[self reloadDataRemovingCurrentPage:YES];
+}
+
+
+- (void)reloadDataRemovingCurrentPage:(BOOL)removeCurrentPage {
 	NSUInteger numberOfPages = [self numberOfPages];
 	CGSize size = _scrollView.bounds.size;
 	_scrollView.contentSize = CGSizeMake(size.width * numberOfPages, size.height);
 	
 	if (numberOfPages <= 10) {
 		_pageControl.numberOfPages = (NSInteger)numberOfPages;
-//		_pageControl.hidden = NO;
+		//		_pageControl.hidden = NO;
 	} else {
 		_pageControl.numberOfPages = 0;
-//		_pageControl.hidden = YES;
+		//		_pageControl.hidden = YES;
 	}
 	
 	// Setup views
-	if (!_views) {
-		_views = [[NSMutableDictionary alloc] init];
+	if (!_pages) {
+		_pages = [[NSMutableDictionary alloc] init];
 	}
 	
 	if (!_reuseablePages) {
 		_reuseablePages = [[NSMutableDictionary alloc] init];
 	}
 	
-	// TODO: Refresh all pages
-	for (NSNumber *key in _views) {
-		UIView *view = [_views objectForKey:key];
-		if ([view isKindOfClass:[UIView class]]) {
-			[view removeFromSuperview];
+	// Remove views
+	[_pages enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+		if (!removeCurrentPage && [key integerValue] == self.currentPageIndex) {
+			return;
 		}
-	}
-	[_views removeAllObjects];
+		
+		[obj removeFromSuperview];
+		[_pages removeObjectForKey:key];
+	}];
 	
 	// Reload current page
 	self.currentPageIndex = self.currentPageIndex;
@@ -183,7 +189,7 @@
 
 
 - (SYPageView *)pageForIndex:(NSUInteger)page {
-	return [_views objectForKey:[NSNumber numberWithInteger:page]];
+	return [_pages objectForKey:[NSNumber numberWithInteger:page]];
 }
 
 
@@ -204,6 +210,11 @@
 }
 
 
+- (SYPageView *)currentPage {
+	return [_pages objectForKey:[NSNumber numberWithInteger:self.currentPageIndex]];
+}
+
+
 #pragma mark - Actions
 
 - (void)_pageControlChanged:(id)sender {
@@ -215,7 +226,7 @@
 
 
 - (void)_loadPage:(NSInteger)page {
-	if (!_views || page < 0 || page >= self.numberOfPages) {
+	if (!_pages || page < 0 || page >= self.numberOfPages) {
 		return;
 	}
 	
@@ -225,7 +236,7 @@
 		view.autoresizingMask = UIViewAutoresizingNone;
 		
 		if (view) {
-			[_views setObject:view forKey:[NSNumber numberWithInteger:page]];
+			[_pages setObject:view forKey:[NSNumber numberWithInteger:page]];
 			[_scrollView addSubview:view];
 			view.frame = [self frameForPageAtIndex:page];
 			
@@ -252,7 +263,7 @@
 
 - (void)_cleanup {
 	NSMutableSet *keysToRemove = [[NSMutableSet alloc] init];
-	for (NSNumber *key in _views) {
+	for (NSNumber *key in _pages) {
 		if (key.integerValue != self.currentPageIndex) {
 			[keysToRemove addObject:key];
 		}
@@ -268,7 +279,7 @@
 
 - (void)_removeViewAtIndex:(NSUInteger)index {
 	[[self pageForIndex:index] removeFromSuperview];
-	[_views removeObjectForKey:[NSNumber numberWithInteger:index]];
+	[_pages removeObjectForKey:[NSNumber numberWithInteger:index]];
 }
 
 
@@ -281,7 +292,7 @@
 	}
 	
 	[view removeFromSuperview];
-	[_views removeObjectForKey:[NSNumber numberWithInteger:index]];
+	[_pages removeObjectForKey:[NSNumber numberWithInteger:index]];
 	[view prepareForReuse];
 	
 	NSMutableSet *set = [_reuseablePages objectForKey:view.reuseIdentifier];
@@ -297,7 +308,7 @@
 - (void)_reusePages {
 	// Check for reuse
 	// TODO: This could be faster
-	NSArray *allKeys = [_views allKeys];
+	NSArray *allKeys = [_pages allKeys];
 	NSInteger numberOfKeys = allKeys.count;
 	if (numberOfKeys - _pagesToPreload - _pagesToPreload > 0) {
 		NSArray *sortedKeys = [allKeys sortedArrayUsingSelector:@selector(compare:)];

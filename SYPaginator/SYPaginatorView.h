@@ -41,11 +41,12 @@ typedef enum {
 @property (nonatomic, assign) CGRect swipeableRect;
 
 - (void)reloadData;
+- (void)reloadDataRemovingCurrentPage:(BOOL)removeCurrentPage;
 - (void)setCurrentPageIndex:(NSUInteger)targetPage animated:(BOOL)animated;
 - (CGRect)frameForPageAtIndex:(NSUInteger)page;
 - (SYPageView *)pageForIndex:(NSUInteger)page;
 - (SYPageView *)dequeueReusablePageWithIdentifier:(NSString *)identifier;
-//- (void)reloadPagesAtIndexes:(NSArray *)indexs withPageAnimation:(SYPageViewAnimation)animation;
+- (SYPageView *)currentPage;
 
 @end
 
