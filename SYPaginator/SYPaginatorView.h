@@ -43,8 +43,8 @@ typedef enum {
 - (void)reloadData;
 - (void)setCurrentPageIndex:(NSUInteger)targetPage animated:(BOOL)animated;
 - (CGRect)frameForPageAtIndex:(NSUInteger)page;
-- (SYPaginatorView *)pageForIndex:(NSUInteger)page;
-- (SYPaginatorView *)dequeueReusablePageWithIdentifier:(NSString *)identifier;
+- (SYPageView *)pageForIndex:(NSUInteger)page;
+- (SYPageView *)dequeueReusablePageWithIdentifier:(NSString *)identifier;
 //- (void)reloadPagesAtIndexes:(NSArray *)indexs withPageAnimation:(SYPageViewAnimation)animation;
 
 @end

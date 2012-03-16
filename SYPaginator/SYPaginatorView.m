@@ -182,12 +182,12 @@
 }
 
 
-- (SYPaginatorView *)pageForIndex:(NSUInteger)page {
+- (SYPageView *)pageForIndex:(NSUInteger)page {
 	return [_views objectForKey:[NSNumber numberWithInteger:page]];
 }
 
 
-- (SYPaginatorView *)dequeueReusablePageWithIdentifier:(NSString *)identifier {
+- (SYPageView *)dequeueReusablePageWithIdentifier:(NSString *)identifier {
 	if (!identifier) {
 		return nil;
 	}
