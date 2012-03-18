@@ -167,8 +167,10 @@
 			return;
 		}
 		
-		[obj removeFromSuperview];
-		[_pages removeObjectForKey:key];
+		if ([obj isKindOfClass:[UIView class]]) {
+			[obj removeFromSuperview];
+			[_pages removeObjectForKey:key];
+		}
 	}];
 	
 	// Reload current page
