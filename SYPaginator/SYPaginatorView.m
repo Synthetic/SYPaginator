@@ -1,5 +1,5 @@
 //
-//  HFPaginator.m
+//  SYPaginator.m
 //  HipstaFoundation
 //
 //  Created by Sam Soffes on 9/21/11.
@@ -37,7 +37,7 @@
 @synthesize currentPageIndex = _currentPageIndex;
 
 - (void)setCurrentPageIndex:(NSUInteger)targetPage {
-	[self setCurrentPageIndex:targetPage animated:YES];
+	[self setCurrentPageIndex:targetPage animated:NO];
 }
 
 
@@ -162,17 +162,16 @@
 	}
 	
 	// Remove views
+	NSMutableArray *keysToRemove = [[NSMutableArray alloc] init];
 	[_pages enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
 		if (!removeCurrentPage && [key integerValue] == self.currentPageIndex) {
 			return;
 		}
 		
-		if ([obj isKindOfClass:[UIView class]]) {
-			[obj removeFromSuperview];
-		}
-		
-		[_pages removeObjectForKey:key];
+		[obj removeFromSuperview];
+		[keysToRemove addObject:key];
 	}];
+	[_pages removeObjectsForKeys:keysToRemove];
 	
 	// Reload current page
 	self.currentPageIndex = self.currentPageIndex;
@@ -221,7 +220,7 @@
 #pragma mark - Actions
 
 - (void)_pageControlChanged:(id)sender {
-	self.currentPageIndex = _pageControl.currentPage;
+	[self setCurrentPageIndex:_pageControl.currentPage animated:YES];
 }
 
 
@@ -348,14 +347,16 @@
 		targetPage = 0;
 	}
 	
-	_currentPageIndex = targetPage;
-	
-	if (!_pageControl.hidden) {
-		_pageControl.currentPage = (NSInteger)targetPage;
+	if (_currentPageIndex != targetPage || [self pageForIndex:targetPage] == nil) {
+		_currentPageIndex = targetPage;
+		
+		if (!_pageControl.hidden) {
+			_pageControl.currentPage = (NSInteger)targetPage;
+		}
+		
+		[self _loadPage:targetPage];
+		[self _loadPagesToPreloadAroundPageAtIndex:targetPage];
 	}
-	
-	[self _loadPage:targetPage];
-	[self _loadPagesToPreloadAroundPageAtIndex:targetPage];
 	
 	if (scroll) {	
 		CGFloat targetX = [self _offsetForPage:targetPage] - roundf(_pageGapWidth / 2.0f);

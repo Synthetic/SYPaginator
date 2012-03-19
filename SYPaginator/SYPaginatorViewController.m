@@ -51,8 +51,8 @@
 }
 
 
-- (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
 	[_paginator reloadData];
 }
 
@@ -67,7 +67,7 @@
 }
 
 
-#pragma mark - HFPaginatorDataSource
+#pragma mark - SYPaginatorDataSource
 
 - (NSUInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginator {
 	return 0;
