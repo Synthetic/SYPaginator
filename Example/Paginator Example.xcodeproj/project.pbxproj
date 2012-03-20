@@ -15,6 +15,7 @@
 		B2C4DF96150962AD00ABF21F /* PEAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C4DF90150962AD00ABF21F /* PEAppDelegate.m */; };
 		B2C4DF97150962AD00ABF21F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C4DF92150962AD00ABF21F /* main.m */; };
 		B2C4DFA4150962C100ABF21F /* libSYPaginator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B2C4DFA1150962B000ABF21F /* libSYPaginator.a */; };
+		B2D1962C15192AF0006BB5AD /* SYPaginatorResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2D1962815192ADE006BB5AD /* SYPaginatorResources.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +32,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = B2C4DF521509621B00ABF21F;
 			remoteInfo = SYPaginator;
+		};
+		B2D1962715192ADE006BB5AD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B2C4DF99150962AF00ABF21F /* SYPaginator.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B2D19608151928EB006BB5AD;
+			remoteInfo = SYPaginatorResources;
+		};
+		B2D1962A15192AE7006BB5AD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B2C4DF99150962AF00ABF21F /* SYPaginator.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = B2D19607151928EB006BB5AD;
+			remoteInfo = SYPaginatorResources;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -130,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				B2C4DFA1150962B000ABF21F /* libSYPaginator.a */,
+				B2D1962815192ADE006BB5AD /* SYPaginatorResources.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -148,6 +164,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				B2D1962B15192AE7006BB5AD /* PBXTargetDependency */,
 				B2C4DFA3150962BD00ABF21F /* PBXTargetDependency */,
 			);
 			name = "Paginator Example";
@@ -196,6 +213,13 @@
 			remoteRef = B2C4DFA0150962B000ABF21F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		B2D1962815192ADE006BB5AD /* SYPaginatorResources.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SYPaginatorResources.bundle;
+			remoteRef = B2D1962715192ADE006BB5AD /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -203,6 +227,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2D1962C15192AF0006BB5AD /* SYPaginatorResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,6 +252,11 @@
 			isa = PBXTargetDependency;
 			name = SYPaginator;
 			targetProxy = B2C4DFA2150962BD00ABF21F /* PBXContainerItemProxy */;
+		};
+		B2D1962B15192AE7006BB5AD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SYPaginatorResources;
+			targetProxy = B2D1962A15192AE7006BB5AD /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

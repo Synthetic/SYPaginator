@@ -1,0 +1,9 @@
+//
+//  SYPaginator.strings
+//  SYPaginator
+//
+//  Created by Sam Soffes on 3/20/12.
+//  Copyright (c) 2011 Synthetic. All rights reserved.
+//
+
+"PAGE_OF_TOTAL" = "%1$@ of %2$@"; // Example: "3 of 7" indicating page 3 is being displayed out of 7 pages

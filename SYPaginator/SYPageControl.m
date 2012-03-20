@@ -7,6 +7,7 @@
 //
 
 #import "SYPageControl.h"
+#import "NSBundle+SYPaginator.h"
 
 static NSInteger const kSYPageControlMaxNumberOfDots = 12;
 
@@ -103,7 +104,17 @@ static NSInteger const kSYPageControlMaxNumberOfDots = 12;
 #pragma mark - Private
 
 - (void)_updateTextLabel {
-	_textLabel.text = [NSString stringWithFormat:@"%i of %i", _currentPage + 1, _numberOfPages];
+	static NSNumberFormatter *numberFormatter = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		numberFormatter = [[NSNumberFormatter alloc] init];
+		numberFormatter.numberStyle = NSNumberFormatterCurrencyStyle;
+		numberFormatter.currencySymbol = @"";
+		numberFormatter.maximumFractionDigits = 0;
+	});
+	_textLabel.text = [NSString stringWithFormat:SYPaginatorLocalizedString(@"PAGE_OF_TOTAL"),
+					   [numberFormatter stringFromNumber:[NSNumber numberWithInteger:_currentPage + 1]],
+					   [numberFormatter stringFromNumber:[NSNumber numberWithInteger:_numberOfPages]]];
 }
 
 

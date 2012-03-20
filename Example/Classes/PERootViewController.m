@@ -23,20 +23,19 @@
 
 #pragma mark - SYPaginatorViewDataSource
 
-- (NSUInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginator {
+- (NSUInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginatorView {
 	return 99999;
 }
 
-
-- (UIView *)paginatorView:(SYPaginatorView *)paginator viewForPage:(NSUInteger)page {
+- (SYPageView *)paginatorView:(SYPaginatorView *)paginatorView viewForPageAtIndex:(NSUInteger)pageIndex {
 	static NSString *identifier = @"identifier";
 	
-	PEPageView *view = [paginator dequeueReusableViewWithIdentifier:identifier];
+	PEPageView *view = (PEPageView *)[paginatorView dequeueReusablePageWithIdentifier:identifier];
 	if (!view) {
 		view = [[PEPageView alloc] initWithReuseIdentifier:identifier];
 	}
 	
-	view.textLabel.text = [NSString stringWithFormat:@"Page %i of %i", page + 1, paginator.numberOfPages];
+	view.textLabel.text = [NSString stringWithFormat:@"Page %i of %i", pageIndex + 1, paginatorView.numberOfPages];
 	
 	return view;
 }

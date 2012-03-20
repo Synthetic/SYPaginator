@@ -18,6 +18,10 @@
 		B2C4DFB11509631500ABF21F /* SYPaginatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C4DFAC1509631500ABF21F /* SYPaginatorViewController.m */; };
 		B2D195FA1518FA41006BB5AD /* SYPageControl.h in Headers */ = {isa = PBXBuildFile; fileRef = B2D195F81518FA41006BB5AD /* SYPageControl.h */; };
 		B2D195FB1518FA41006BB5AD /* SYPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = B2D195F91518FA41006BB5AD /* SYPageControl.m */; };
+		B2D1960215192830006BB5AD /* NSBundle+SYPaginator.h in Headers */ = {isa = PBXBuildFile; fileRef = B2D1960015192830006BB5AD /* NSBundle+SYPaginator.h */; };
+		B2D1960315192830006BB5AD /* NSBundle+SYPaginator.m in Sources */ = {isa = PBXBuildFile; fileRef = B2D1960115192830006BB5AD /* NSBundle+SYPaginator.m */; };
+		B2D1960A151928EB006BB5AD /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2D19609151928EB006BB5AD /* CoreFoundation.framework */; };
+		B2D196151519292F006BB5AD /* SYPaginator.strings in Resources */ = {isa = PBXBuildFile; fileRef = B2D195FE1519269D006BB5AD /* SYPaginator.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +38,12 @@
 		B2C4DFAC1509631500ABF21F /* SYPaginatorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPaginatorViewController.m; sourceTree = "<group>"; };
 		B2D195F81518FA41006BB5AD /* SYPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPageControl.h; sourceTree = "<group>"; };
 		B2D195F91518FA41006BB5AD /* SYPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPageControl.m; sourceTree = "<group>"; };
+		B2D195FF1519269D006BB5AD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/SYPaginator.strings; sourceTree = SOURCE_ROOT; };
+		B2D1960015192830006BB5AD /* NSBundle+SYPaginator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+SYPaginator.h"; sourceTree = "<group>"; };
+		B2D1960115192830006BB5AD /* NSBundle+SYPaginator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+SYPaginator.m"; sourceTree = "<group>"; };
+		B2D19608151928EB006BB5AD /* SYPaginatorResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SYPaginatorResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2D19609151928EB006BB5AD /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		B2D1961C15192988006BB5AD /* SYPaginatorResources-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SYPaginatorResources-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +55,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B2D19605151928EB006BB5AD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B2D1960A151928EB006BB5AD /* CoreFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -52,6 +70,7 @@
 			isa = PBXGroup;
 			children = (
 				B2C4DFA81509631500ABF21F /* SYPaginator */,
+				B2D195FD1519267D006BB5AD /* Resources */,
 				B2C4DF551509621B00ABF21F /* Frameworks */,
 				B2C4DF541509621B00ABF21F /* Products */,
 			);
@@ -61,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				B2C4DF531509621B00ABF21F /* libSYPaginator.a */,
+				B2D19608151928EB006BB5AD /* SYPaginatorResources.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -69,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				B2C4DF561509621B00ABF21F /* Foundation.framework */,
+				B2D19609151928EB006BB5AD /* CoreFoundation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -87,7 +108,19 @@
 				B275DFF21509788C00D6E7C1 /* SYPaginatorScrollView.m */,
 				B2D195F81518FA41006BB5AD /* SYPageControl.h */,
 				B2D195F91518FA41006BB5AD /* SYPageControl.m */,
+				B2D1960015192830006BB5AD /* NSBundle+SYPaginator.h */,
+				B2D1960115192830006BB5AD /* NSBundle+SYPaginator.m */,
 			);
+			path = SYPaginator;
+			sourceTree = "<group>";
+		};
+		B2D195FD1519267D006BB5AD /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B2D1961C15192988006BB5AD /* SYPaginatorResources-Info.plist */,
+				B2D195FE1519269D006BB5AD /* SYPaginator.strings */,
+			);
+			name = Resources;
 			path = SYPaginator;
 			sourceTree = "<group>";
 		};
@@ -103,6 +136,7 @@
 				B275DFEF1509783500D6E7C1 /* SYPageView.h in Headers */,
 				B275DFF31509788C00D6E7C1 /* SYPaginatorScrollView.h in Headers */,
 				B2D195FA1518FA41006BB5AD /* SYPageControl.h in Headers */,
+				B2D1960215192830006BB5AD /* NSBundle+SYPaginator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,6 +160,23 @@
 			productReference = B2C4DF531509621B00ABF21F /* libSYPaginator.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		B2D19607151928EB006BB5AD /* SYPaginatorResources */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B2D19612151928EB006BB5AD /* Build configuration list for PBXNativeTarget "SYPaginatorResources" */;
+			buildPhases = (
+				B2D19604151928EB006BB5AD /* Sources */,
+				B2D19605151928EB006BB5AD /* Frameworks */,
+				B2D19606151928EB006BB5AD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SYPaginatorResources;
+			productName = SYPaginatorResources;
+			productReference = B2D19608151928EB006BB5AD /* SYPaginatorResources.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -148,9 +199,21 @@
 			projectRoot = "";
 			targets = (
 				B2C4DF521509621B00ABF21F /* SYPaginator */,
+				B2D19607151928EB006BB5AD /* SYPaginatorResources */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B2D19606151928EB006BB5AD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B2D196151519292F006BB5AD /* SYPaginator.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B2C4DF4F1509621B00ABF21F /* Sources */ = {
@@ -162,10 +225,29 @@
 				B275DFF01509783500D6E7C1 /* SYPageView.m in Sources */,
 				B275DFF41509788C00D6E7C1 /* SYPaginatorScrollView.m in Sources */,
 				B2D195FB1518FA41006BB5AD /* SYPageControl.m in Sources */,
+				B2D1960315192830006BB5AD /* NSBundle+SYPaginator.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B2D19604151928EB006BB5AD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		B2D195FE1519269D006BB5AD /* SYPaginator.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B2D195FF1519269D006BB5AD /* en */,
+			);
+			name = SYPaginator.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		B2C4DF5E1509621B00ABF21F /* Debug */ = {
@@ -242,6 +324,38 @@
 			};
 			name = Release;
 		};
+		B2D19613151928EB006BB5AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "Resources/SYPaginatorResources-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		B2D19614151928EB006BB5AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "Resources/SYPaginatorResources-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -262,6 +376,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		B2D19612151928EB006BB5AD /* Build configuration list for PBXNativeTarget "SYPaginatorResources" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B2D19613151928EB006BB5AD /* Debug */,
+				B2D19614151928EB006BB5AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
