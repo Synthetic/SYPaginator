@@ -146,10 +146,10 @@
 	
 	if (numberOfPages <= 10) {
 		_pageControl.numberOfPages = (NSInteger)numberOfPages;
-		//		_pageControl.hidden = NO;
+//		_pageControl.hidden = NO;
 	} else {
 		_pageControl.numberOfPages = 0;
-		//		_pageControl.hidden = YES;
+//		_pageControl.hidden = YES;
 	}
 	
 	// Setup views
@@ -174,7 +174,11 @@
 	[_pages removeObjectsForKeys:keysToRemove];
 	
 	// Reload current page
-	self.currentPageIndex = self.currentPageIndex;
+	if (self.currentPageIndex >= numberOfPages) {
+		self.currentPageIndex = numberOfPages - 1;
+	} else {
+		self.currentPageIndex = self.currentPageIndex;
+	}
 }
 
 
