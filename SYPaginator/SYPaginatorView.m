@@ -8,6 +8,7 @@
 
 #import "SYPaginatorView.h"
 #import "SYPageView.h"
+#import "SYPageControl.h"
 #import "SYPaginatorScrollView.h"
 
 @interface SYPaginatorView () <UIScrollViewDelegate>
@@ -91,7 +92,7 @@
 		
 		// Page control
 		CGSize size = self.bounds.size;
-		_pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0.0f, size.height - 18.0f, size.width, 18.0f)];
+		_pageControl = [[SYPageControl alloc] initWithFrame:CGRectMake(0.0f, size.height - 18.0f, size.width, 18.0f)];
 		_pageControl.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
 		_pageControl.currentPage = 0;
 		[_pageControl addTarget:self action:@selector(_pageControlChanged:) forControlEvents:UIControlEventValueChanged];
@@ -143,14 +144,7 @@
 	NSUInteger numberOfPages = [self numberOfPages];
 	CGSize size = _scrollView.bounds.size;
 	_scrollView.contentSize = CGSizeMake(size.width * numberOfPages, size.height);
-	
-	if (numberOfPages <= 10) {
-		_pageControl.numberOfPages = (NSInteger)numberOfPages;
-//		_pageControl.hidden = NO;
-	} else {
-		_pageControl.numberOfPages = 0;
-//		_pageControl.hidden = YES;
-	}
+	_pageControl.numberOfPages = (NSInteger)numberOfPages;
 	
 	// Setup views
 	if (!_pages) {
@@ -353,10 +347,7 @@
 	
 	if (_currentPageIndex != targetPage || [self pageForIndex:targetPage] == nil) {
 		_currentPageIndex = targetPage;
-		
-		if (!_pageControl.hidden) {
-			_pageControl.currentPage = (NSInteger)targetPage;
-		}
+		_pageControl.currentPage = (NSInteger)targetPage;
 		
 		[self _loadPage:targetPage];
 		[self _loadPagesToPreloadAroundPageAtIndex:targetPage];

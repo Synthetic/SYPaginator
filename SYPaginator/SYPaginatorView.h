@@ -18,6 +18,7 @@ typedef enum {
 @protocol SYPaginatorViewDataSource;
 @protocol SYPaginatorViewDelegate;
 @class SYPageView;
+@class SYPageControl;
 
 /**
  This class manages a paging UIScrollView and a UIPageControl.
@@ -32,7 +33,7 @@ typedef enum {
 
 // UI
 @property (nonatomic, strong, readonly) UIScrollView *scrollView;
-@property (nonatomic, strong, readonly) UIPageControl *pageControl;
+@property (nonatomic, strong, readonly) SYPageControl *pageControl;
 
 @property (nonatomic, assign) NSUInteger currentPageIndex;
 @property (nonatomic, assign, readonly) NSUInteger numberOfPages;

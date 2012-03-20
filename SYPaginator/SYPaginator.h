@@ -9,3 +9,4 @@
 #import <SYPaginator/SYPaginatorView.h>
 #import <SYPaginator/SYPaginatorViewController.h>
 #import <SYPaginator/SYPageView.h>
+#import <SYPaginator/SYPageControl.h>

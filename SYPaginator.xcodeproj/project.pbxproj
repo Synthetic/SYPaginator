@@ -16,6 +16,8 @@
 		B2C4DFAF1509631500ABF21F /* SYPaginatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C4DFAA1509631500ABF21F /* SYPaginatorView.m */; };
 		B2C4DFB01509631500ABF21F /* SYPaginatorViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B2C4DFAB1509631500ABF21F /* SYPaginatorViewController.h */; };
 		B2C4DFB11509631500ABF21F /* SYPaginatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C4DFAC1509631500ABF21F /* SYPaginatorViewController.m */; };
+		B2D195FA1518FA41006BB5AD /* SYPageControl.h in Headers */ = {isa = PBXBuildFile; fileRef = B2D195F81518FA41006BB5AD /* SYPageControl.h */; };
+		B2D195FB1518FA41006BB5AD /* SYPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = B2D195F91518FA41006BB5AD /* SYPageControl.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		B2C4DFAA1509631500ABF21F /* SYPaginatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPaginatorView.m; sourceTree = "<group>"; };
 		B2C4DFAB1509631500ABF21F /* SYPaginatorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPaginatorViewController.h; sourceTree = "<group>"; };
 		B2C4DFAC1509631500ABF21F /* SYPaginatorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPaginatorViewController.m; sourceTree = "<group>"; };
+		B2D195F81518FA41006BB5AD /* SYPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPageControl.h; sourceTree = "<group>"; };
+		B2D195F91518FA41006BB5AD /* SYPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPageControl.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +85,8 @@
 				B275DFEE1509783500D6E7C1 /* SYPageView.m */,
 				B275DFF11509788C00D6E7C1 /* SYPaginatorScrollView.h */,
 				B275DFF21509788C00D6E7C1 /* SYPaginatorScrollView.m */,
+				B2D195F81518FA41006BB5AD /* SYPageControl.h */,
+				B2D195F91518FA41006BB5AD /* SYPageControl.m */,
 			);
 			path = SYPaginator;
 			sourceTree = "<group>";
@@ -96,6 +102,7 @@
 				B2C4DFB01509631500ABF21F /* SYPaginatorViewController.h in Headers */,
 				B275DFEF1509783500D6E7C1 /* SYPageView.h in Headers */,
 				B275DFF31509788C00D6E7C1 /* SYPaginatorScrollView.h in Headers */,
+				B2D195FA1518FA41006BB5AD /* SYPageControl.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,6 +161,7 @@
 				B2C4DFB11509631500ABF21F /* SYPaginatorViewController.m in Sources */,
 				B275DFF01509783500D6E7C1 /* SYPageView.m in Sources */,
 				B275DFF41509788C00D6E7C1 /* SYPaginatorScrollView.m in Sources */,
+				B2D195FB1518FA41006BB5AD /* SYPageControl.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
