@@ -69,12 +69,12 @@
 
 #pragma mark - SYPaginatorDataSource
 
-- (NSUInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginator {
+- (NSInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginator {
 	return 0;
 }
 
 
-- (SYPageView *)paginatorView:(SYPaginatorView *)paginator viewForPageAtIndex:(NSUInteger)page {
+- (SYPageView *)paginatorView:(SYPaginatorView *)paginator viewForPageAtIndex:(NSInteger)page {
 	return nil;
 }
 

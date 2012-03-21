@@ -35,17 +35,17 @@ typedef enum {
 @property (nonatomic, strong, readonly) UIScrollView *scrollView;
 @property (nonatomic, strong, readonly) SYPageControl *pageControl;
 
-@property (nonatomic, assign) NSUInteger currentPageIndex;
-@property (nonatomic, assign, readonly) NSUInteger numberOfPages;
+@property (nonatomic, assign) NSInteger currentPageIndex;
+@property (nonatomic, assign, readonly) NSInteger numberOfPages;
 @property (nonatomic, assign) CGFloat pageGapWidth;
-@property (nonatomic, assign) NSUInteger numberOfPagesToPreload;
+@property (nonatomic, assign) NSInteger numberOfPagesToPreload;
 @property (nonatomic, assign) CGRect swipeableRect;
 
 - (void)reloadData;
 - (void)reloadDataRemovingCurrentPage:(BOOL)removeCurrentPage;
-- (void)setCurrentPageIndex:(NSUInteger)targetPage animated:(BOOL)animated;
-- (CGRect)frameForPageAtIndex:(NSUInteger)page;
-- (SYPageView *)pageForIndex:(NSUInteger)page;
+- (void)setCurrentPageIndex:(NSInteger)targetPage animated:(BOOL)animated;
+- (CGRect)frameForPageAtIndex:(NSInteger)page;
+- (SYPageView *)pageForIndex:(NSInteger)page;
 - (SYPageView *)dequeueReusablePageWithIdentifier:(NSString *)identifier;
 - (SYPageView *)currentPage;
 
@@ -56,8 +56,8 @@ typedef enum {
 
 @required
 
-- (NSUInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginatorView;
-- (SYPageView *)paginatorView:(SYPaginatorView *)paginatorView viewForPageAtIndex:(NSUInteger)pageIndex;
+- (NSInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginatorView;
+- (SYPageView *)paginatorView:(SYPaginatorView *)paginatorView viewForPageAtIndex:(NSInteger)pageIndex;
 
 @end
 
@@ -67,7 +67,7 @@ typedef enum {
 @optional
 
 - (void)paginatorViewDidBeginPaging:(SYPaginatorView *)paginatorView;
-- (void)paginatorView:(SYPaginatorView *)paginatorView willDisplayView:(UIView *)view atIndex:(NSUInteger)pageIndex;
-- (void)paginatorView:(SYPaginatorView *)paginatorView didScrollToPageAtIndex:(NSUInteger)pageIndex;
+- (void)paginatorView:(SYPaginatorView *)paginatorView willDisplayView:(UIView *)view atIndex:(NSInteger)pageIndex;
+- (void)paginatorView:(SYPaginatorView *)paginatorView didScrollToPageAtIndex:(NSInteger)pageIndex;
 
 @end

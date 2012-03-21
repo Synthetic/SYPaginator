@@ -28,13 +28,10 @@ static NSInteger const kSYPageControlMaxNumberOfDots = 12;
 - (void)setNumberOfPages:(NSInteger)numberOfPages {
 	_numberOfPages = numberOfPages;
 	if (numberOfPages == 1 && _hidesForSinglePage) {
-		self.hidden = YES;
 		[_pageControl removeFromSuperview];
 		[_textLabel removeFromSuperview];
 		return;
 	}
-	
-	self.hidden = NO;
 	
 	if (numberOfPages <= kSYPageControlMaxNumberOfDots) {
 		_pageControl.numberOfPages = numberOfPages;
