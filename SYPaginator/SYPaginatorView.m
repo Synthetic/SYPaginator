@@ -321,7 +321,6 @@
 	NSInteger location = currentIndex + _pagesToPreload;
 	NSInteger length = numberOfKeys - location - 1;
 	if (location > 0 && length > 0 && numberOfKeys > location + length) {
-		NSLog(@"REUSE AFTER");
 		NSArray *keys = [sortedKeys subarrayWithRange:NSMakeRange(location, length)];
 		for (NSNumber *key in keys) {
 			[self _reuseViewAtIndex:key.integerValue];
@@ -332,7 +331,6 @@
 	numberOfKeys = allKeys.count;
 	length = currentIndex - _pagesToPreload;
 	if (currentIndex - _pagesToPreload > 0 && length > 0 && length < numberOfKeys) {
-		NSLog(@"REUSE BEFORE");
 		NSArray *keys = [sortedKeys subarrayWithRange:NSMakeRange(0, length)];
 		for (NSNumber *key in keys) {
 			[self _reuseViewAtIndex:key.integerValue];
