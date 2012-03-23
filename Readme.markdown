@@ -10,7 +10,7 @@ Simple paging scroll view to make complicated tasks easier. We use this in sever
     
     You can also just download the code and put it in your project too.
 
-2. Drag the SYPaginator project into your projet.
+2. Drag the SYPaginator project into your project.
 
 3. Add `libSYPaginator.a` and `SYPaginatorResources.bundle` as Build Dependencies to your target
 
