@@ -18,3 +18,7 @@ Simple paging scroll view to make complicated tasks easier. We use this in sever
 
 5. Add `#import <SYPaginator/SYPaginator.h>` where ever you'd like to use SYPaginator.
 
+
+## Example App 
+
+There is an example app included with SYPaginator. Check it out for basic usage.
