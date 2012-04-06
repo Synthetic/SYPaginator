@@ -109,7 +109,15 @@ static NSInteger const kSYPageControlMaxNumberOfDots = 12;
 		numberFormatter.currencySymbol = @"";
 		numberFormatter.maximumFractionDigits = 0;
 	});
-	_textLabel.text = [NSString stringWithFormat:SYPaginatorLocalizedString(@"PAGE_OF_TOTAL"),
+	
+	NSString *format = SYPaginatorLocalizedString(@"PAGE_OF_TOTAL");
+	if (!format) {
+		NSLog(@"[SYPaginator] WARNING: SYPaginatorResources.bundle is missing. Please add it your copy resources build phase.");
+		_textLabel.text = nil;
+		return;
+	}
+	
+	_textLabel.text = [NSString stringWithFormat:format,
 					   [numberFormatter stringFromNumber:[NSNumber numberWithInteger:_currentPage + 1]],
 					   [numberFormatter stringFromNumber:[NSNumber numberWithInteger:_numberOfPages]]];
 }
