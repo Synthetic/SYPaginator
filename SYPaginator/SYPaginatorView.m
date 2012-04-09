@@ -19,7 +19,7 @@
 - (void)_removeViewAtIndex:(NSInteger)index;
 - (void)_reuseViewAtIndex:(NSInteger)index;
 - (void)_reusePages;
-- (void)_setCurrentPageIndex:(NSInteger)targetPage animated:(BOOL)animated scroll:(BOOL)scroll;
+- (void)_setCurrentPageIndex:(NSInteger)targetPage animated:(BOOL)animated scroll:(BOOL)scroll forcePreload:(BOOL)forcePreload;
 @end
 
 @implementation SYPaginatorView {
@@ -168,16 +168,17 @@
 	[_pages removeObjectsForKeys:keysToRemove];
 	
 	// Reload current page
-	if (self.currentPageIndex >= numberOfPages) {
-		self.currentPageIndex = numberOfPages - 1;
-	} else {
-		self.currentPageIndex = self.currentPageIndex;
+	NSUInteger newIndex = self.currentPageIndex;
+	if (newIndex >= numberOfPages) {
+		newIndex = numberOfPages - 1;
 	}
+	
+	[self _setCurrentPageIndex:newIndex animated:NO scroll:YES forcePreload:YES];
 }
 
 
 - (void)setCurrentPageIndex:(NSInteger)targetPage animated:(BOOL)animated {
-	[self _setCurrentPageIndex:targetPage animated:animated scroll:YES];
+	[self _setCurrentPageIndex:targetPage animated:animated scroll:YES forcePreload:NO];
 }
 
 
@@ -339,7 +340,7 @@
 }
 
 
-- (void)_setCurrentPageIndex:(NSInteger)targetPage animated:(BOOL)animated scroll:(BOOL)scroll {
+- (void)_setCurrentPageIndex:(NSInteger)targetPage animated:(BOOL)animated scroll:(BOOL)scroll forcePreload:(BOOL)forcePreload {
 	if (scroll && _delegate && [_delegate respondsToSelector:@selector(paginatorViewDidBeginPaging:)]) {
 		[_delegate paginatorViewDidBeginPaging:self];
 	}
@@ -351,7 +352,7 @@
 		targetPage = numberOfPages;
 	}
 	
-	if (_currentPageIndex != targetPage || [self pageForIndex:targetPage] == nil) {
+	if (_currentPageIndex != targetPage || [self pageForIndex:targetPage] == nil || forcePreload) {
 		_currentPageIndex = targetPage;
 		_pageControl.currentPage = (NSInteger)targetPage;
 		
@@ -385,7 +386,7 @@
 	CGFloat pageWidth = _scrollView.frame.size.width;
 	NSInteger pageIndex = floor((_scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
 	
-	[self _setCurrentPageIndex:pageIndex animated:NO scroll:NO];
+	[self _setCurrentPageIndex:pageIndex animated:NO scroll:NO forcePreload:NO];
 }
 
 
