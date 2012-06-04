@@ -26,6 +26,7 @@
 	NSMutableDictionary  *_pages;
 	NSMutableDictionary *_reuseablePages;
 	BOOL _pageControlUsed;
+	BOOL _pageSetViaPublicMethod;
 }
 
 @synthesize scrollView = _scrollView;
@@ -98,6 +99,10 @@
 		[_pageControl addTarget:self action:@selector(_pageControlChanged:) forControlEvents:UIControlEventValueChanged];
 		[self addSubview:_pageControl];
 		
+		// Setup views cache
+		_pages = [[NSMutableDictionary alloc] init];
+		_reuseablePages = [[NSMutableDictionary alloc] init];
+		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_cleanup)
 													 name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
 	}
@@ -115,12 +120,6 @@
 		UIView *view = [_pages objectForKey:key];
 		view.frame = [self frameForPageAtIndex:key.integerValue];
 	}
-}
-
-
-- (void)setFrame:(CGRect)frame {
-	[super setFrame:frame];
-	self.currentPageIndex = self.currentPageIndex;
 }
 
 
@@ -146,15 +145,6 @@
 	_scrollView.contentSize = CGSizeMake(size.width * numberOfPages, size.height);
 	_pageControl.numberOfPages = (NSInteger)numberOfPages;
 	
-	// Setup views
-	if (!_pages) {
-		_pages = [[NSMutableDictionary alloc] init];
-	}
-	
-	if (!_reuseablePages) {
-		_reuseablePages = [[NSMutableDictionary alloc] init];
-	}
-	
 	// Remove views
 	NSMutableArray *keysToRemove = [[NSMutableArray alloc] init];
 	[_pages enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
@@ -178,6 +168,7 @@
 
 
 - (void)setCurrentPageIndex:(NSInteger)targetPage animated:(BOOL)animated {
+	_pageSetViaPublicMethod = YES;
 	[self _setCurrentPageIndex:targetPage animated:animated scroll:YES forcePreload:NO];
 }
 
@@ -223,11 +214,21 @@
 }
 
 
+#pragma mark - Properties
+
+- (void)setDataSource:(id<SYPaginatorViewDataSource>)dataSource {
+	_dataSource = dataSource;
+	if (_dataSource) {
+		[self reloadData];
+	}
+}
+
+
 #pragma mark - Private
 
 
 - (void)_loadPage:(NSInteger)page {
-	if (!_pages || page < 0 || page >= self.numberOfPages) {
+	if (page < 0 || page >= self.numberOfPages) {
 		return;
 	}
 	
@@ -341,6 +342,10 @@
 
 
 - (void)_setCurrentPageIndex:(NSInteger)targetPage animated:(BOOL)animated scroll:(BOOL)scroll forcePreload:(BOOL)forcePreload {
+	if (_currentPageIndex == targetPage && _pageSetViaPublicMethod != YES) {
+		return;
+	}
+	
 	if (scroll && _delegate && [_delegate respondsToSelector:@selector(paginatorViewDidBeginPaging:)]) {
 		[_delegate paginatorViewDidBeginPaging:self];
 	}
@@ -363,9 +368,7 @@
 	if (scroll) {	
 		CGFloat targetX = [self _offsetForPage:targetPage] - roundf(_pageGapWidth / 2.0f);
 		if (_scrollView.contentOffset.x != targetX) {
-			CGSize size = _scrollView.bounds.size;
-			CGRect rect = CGRectMake(targetX, 0.0f, size.width, size.height);
-			[_scrollView scrollRectToVisible:rect animated:animated];
+			[_scrollView setContentOffset:CGPointMake(targetX, 0.0f) animated:animated];
 			_pageControlUsed = YES;
 		}
 		
@@ -373,6 +376,8 @@
 			[_delegate paginatorView:self didScrollToPageAtIndex:self.currentPageIndex];
 		}
 	}
+	
+	_pageSetViaPublicMethod = NO;
 }
 
 
