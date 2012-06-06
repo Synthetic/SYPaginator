@@ -15,6 +15,11 @@ typedef enum {
 	SYPageViewAnimationBottom
 } SYPageViewAnimation;
 
+typedef enum {
+	SYPageViewPaginationDirectionHorizontal,
+	SYPageViewPaginationDirectionVertical
+} SYPageViewPaginationDirection;
+
 @protocol SYPaginatorViewDataSource;
 @protocol SYPaginatorViewDelegate;
 @class SYPageView;
@@ -40,6 +45,7 @@ typedef enum {
 @property (nonatomic, assign) CGFloat pageGapWidth;
 @property (nonatomic, assign) NSInteger numberOfPagesToPreload;
 @property (nonatomic, assign) CGRect swipeableRect;
+@property (nonatomic, assign) SYPageViewPaginationDirection paginationDirection;
 
 - (void)reloadData;
 - (void)reloadDataRemovingCurrentPage:(BOOL)removeCurrentPage;

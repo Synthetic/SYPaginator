@@ -15,6 +15,7 @@
 - (void)_loadPage:(NSInteger)page;
 - (void)_loadPagesToPreloadAroundPageAtIndex:(NSInteger)index;
 - (CGFloat)_offsetForPage:(NSInteger)page;
+- (void)_resetScrollViewContentSize;
 - (void)_cleanup;
 - (void)_removeViewAtIndex:(NSInteger)index;
 - (void)_reuseViewAtIndex:(NSInteger)index;
@@ -37,6 +38,7 @@
 @synthesize numberOfPagesToPreload = _pagesToPreload;
 @synthesize swipeableRect = _swipeableRect;
 @synthesize currentPageIndex = _currentPageIndex;
+@synthesize paginationDirection = _paginationDirection;
 
 - (void)setCurrentPageIndex:(NSInteger)targetPage {
 	[self setCurrentPageIndex:targetPage animated:NO];
@@ -52,8 +54,14 @@
 	_pageGapWidth = pageGap;
 	
 	CGRect rect = _scrollView.frame;
-	rect.origin.x -= roundf(pageGap / 2.0f);
-	rect.size.width += pageGap;
+	CGFloat gapOffset = roundf(pageGap / 2.0f);
+	if (_paginationDirection == SYPageViewPaginationDirectionHorizontal) {
+		rect.origin.x -= gapOffset;
+		rect.size.width += pageGap;
+	} else {
+		rect.origin.y -= gapOffset;
+		rect.size.height += pageGap;
+	}
 	
 	_scrollView.frame = rect;
 	[self setNeedsLayout];
@@ -113,8 +121,7 @@
 - (void)layoutSubviews {
 	[super layoutSubviews];
 	
-	NSInteger numberOfPages = [self numberOfPages];
-	_scrollView.contentSize = CGSizeMake(_scrollView.bounds.size.width * numberOfPages, _scrollView.bounds.size.height);
+	[self _resetScrollViewContentSize];
 	
 	for (NSNumber *key in _pages) {
 		UIView *view = [_pages objectForKey:key];
@@ -140,10 +147,10 @@
 
 
 - (void)reloadDataRemovingCurrentPage:(BOOL)removeCurrentPage {
+	[self _resetScrollViewContentSize];
+	
 	NSInteger numberOfPages = [self numberOfPages];
-	CGSize size = _scrollView.bounds.size;
-	_scrollView.contentSize = CGSizeMake(size.width * numberOfPages, size.height);
-	_pageControl.numberOfPages = (NSInteger)numberOfPages;
+	_pageControl.numberOfPages = numberOfPages;
 	
 	// Remove views
 	NSMutableArray *keysToRemove = [[NSMutableArray alloc] init];
@@ -175,8 +182,12 @@
 
 - (CGRect)frameForPageAtIndex:(NSInteger)page {
 	CGSize size = _scrollView.frame.size;
-	CGFloat x = [self _offsetForPage:page];
-	return CGRectMake(x, 0.0f, size.width - _pageGapWidth, size.height);
+	CGFloat offset = [self _offsetForPage:page];
+	if (_paginationDirection == SYPageViewPaginationDirectionHorizontal) {
+		return CGRectMake(offset, 0.0f, size.width - _pageGapWidth, size.height);
+	} else {
+		return CGRectMake(0.0f, offset, size.width, size.height - _pageGapWidth);
+	}
 }
 
 
@@ -224,6 +235,24 @@
 }
 
 
+- (void)setPaginationDirection:(SYPageViewPaginationDirection)paginationDirection {
+	BOOL directionChanged = (paginationDirection != _paginationDirection);
+	
+	_paginationDirection = paginationDirection;
+	
+	if (directionChanged) {
+		if (_paginationDirection == SYPageViewPaginationDirectionHorizontal) {
+			_scrollView.alwaysBounceHorizontal = YES;
+			_scrollView.alwaysBounceVertical = NO;
+		} else {
+			_scrollView.alwaysBounceHorizontal = NO;
+			_scrollView.alwaysBounceVertical = YES;
+		}
+		[self reloadData];
+	}
+}
+
+
 #pragma mark - Private
 
 
@@ -259,7 +288,25 @@
 
 
 - (CGFloat)_offsetForPage:(NSInteger)page {
-	return (page == 0) ? roundf(_pageGapWidth / 2.0f) : (_scrollView.bounds.size.width * page) + roundf(_pageGapWidth / 2.0f);
+	CGFloat pageDelta = 0.0f;
+	if (_paginationDirection == SYPageViewPaginationDirectionHorizontal) {
+		pageDelta = _scrollView.bounds.size.width;
+	} else {
+		pageDelta = _scrollView.bounds.size.height;
+	}
+	return (page == 0) ? roundf(_pageGapWidth / 2.0f) : (pageDelta * page) + roundf(_pageGapWidth / 2.0f);
+}
+
+
+- (void)_resetScrollViewContentSize {
+	NSInteger numberOfPages = [self numberOfPages];
+	CGSize boundsSize = _scrollView.bounds.size;
+	if (_paginationDirection == SYPageViewPaginationDirectionHorizontal) {
+		boundsSize.width = (numberOfPages * boundsSize.width);
+	} else {
+		boundsSize.height = (numberOfPages * boundsSize.height);
+	}
+	_scrollView.contentSize = boundsSize;
 }
 
 
@@ -365,11 +412,18 @@
 		[self _loadPagesToPreloadAroundPageAtIndex:targetPage];
 	}
 	
-	if (scroll) {	
-		CGFloat targetX = [self _offsetForPage:targetPage] - roundf(_pageGapWidth / 2.0f);
-		if (_scrollView.contentOffset.x != targetX) {
-			[_scrollView setContentOffset:CGPointMake(targetX, 0.0f) animated:animated];
-			_pageControlUsed = YES;
+	if (scroll) {
+		CGFloat targetOffset = [self _offsetForPage:targetPage] - roundf(_pageGapWidth / 2.0f);
+		if (_paginationDirection == SYPageViewPaginationDirectionHorizontal) {
+			if (_scrollView.contentOffset.x != targetOffset) {
+				[_scrollView setContentOffset:CGPointMake(targetOffset, 0.0f) animated:animated];
+				_pageControlUsed = YES;
+			}
+		} else {
+			if (_scrollView.contentOffset.y != targetOffset) {
+				[_scrollView setContentOffset:CGPointMake(0.0f, targetOffset) animated:animated];
+				_pageControlUsed = YES;
+			}
 		}
 		
 		if (_delegate && [_delegate respondsToSelector:@selector(paginatorView:didScrollToPageAtIndex:)]) {
@@ -388,8 +442,14 @@
 		return;
 	}
 	
-	CGFloat pageWidth = _scrollView.frame.size.width;
-	NSInteger pageIndex = floor((_scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+	NSInteger pageIndex = 0;
+	if (_paginationDirection == SYPageViewPaginationDirectionHorizontal) {
+		CGFloat pageWidth = _scrollView.frame.size.width;
+		pageIndex = floor((_scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+	} else {
+		CGFloat pageHeight = _scrollView.frame.size.height;
+		pageIndex = floor((_scrollView.contentOffset.y - pageHeight / 2) / pageHeight) + 1;
+	}
 	
 	[self _setCurrentPageIndex:pageIndex animated:NO scroll:NO forcePreload:NO];
 }
