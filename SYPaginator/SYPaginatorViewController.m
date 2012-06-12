@@ -51,6 +51,12 @@
 }
 
 
+- (void)viewDidUnload {
+	[super viewDidUnload];
+	[_paginator removeFromSuperview];
+}
+
+
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	[_paginator reloadData];
