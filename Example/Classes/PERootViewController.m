@@ -24,7 +24,7 @@
 #pragma mark - SYPaginatorViewDataSource
 
 - (NSInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginatorView {
-	return 99999;
+	return 8;
 }
 
 - (SYPageView *)paginatorView:(SYPaginatorView *)paginatorView viewForPageAtIndex:(NSInteger)pageIndex {
@@ -39,5 +39,9 @@
 	
 	return view;
 }
-
+-(void)paginatorView:(SYPaginatorView *)paginatorView
+     willDisplayView:(UIView *)view
+             atIndex:(NSInteger)pageIndex{
+    NSLog(@"will display view at index: %i", pageIndex + 1);
+}
 @end
