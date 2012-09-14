@@ -51,6 +51,12 @@
 }
 
 
+- (void)viewDidUnload {
+	[super viewDidUnload];
+	[_paginator removeFromSuperview];
+}
+
+
 #pragma mark - Private
 
 - (void)_initialize {
