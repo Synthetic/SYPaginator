@@ -418,6 +418,10 @@
 		
 		[self _loadPage:targetPage];
 		[self _loadPagesToPreloadAroundPageAtIndex:targetPage];
+        
+        if(_delegate && [_delegate respondsToSelector:@selector(paginatorView:willDisplayView:atIndex:)]){
+            [_delegate paginatorView:self willDisplayView:[self pageForIndex:targetPage] atIndex:targetPage];
+        }
 	}
 	
 	if (scroll) {
