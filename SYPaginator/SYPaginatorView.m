@@ -127,6 +127,11 @@
 		UIView *view = [_pages objectForKey:key];
 		view.frame = [self frameForPageAtIndex:key.integerValue];
 	}
+	
+	// Since the location of the current page will likely change during an orientation change (and since this is called
+	// within the animation block during said change) setting the page index will assure all the necessary offsets
+	// are calculated and assigned for the new view bounds
+	[self setCurrentPageIndex:self.currentPageIndex];
 }
 
 
