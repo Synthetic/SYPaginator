@@ -33,8 +33,13 @@ typedef enum {
 @interface SYPaginatorView : UIView
 
 // Configuring
+#if defined(__IPHONE_5_0) && __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_5_0
+@property (nonatomic, weak) id<SYPaginatorViewDataSource> dataSource;
+@property (nonatomic, weak) id<SYPaginatorViewDelegate> delegate;
+#else
 @property (nonatomic, unsafe_unretained) id<SYPaginatorViewDataSource> dataSource;
 @property (nonatomic, unsafe_unretained) id<SYPaginatorViewDelegate> delegate;
+#endif
 
 // UI
 @property (nonatomic, strong, readonly) UIScrollView *scrollView;
