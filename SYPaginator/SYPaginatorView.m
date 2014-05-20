@@ -402,7 +402,7 @@
 
 
 - (void)_setCurrentPageIndex:(NSInteger)targetPage animated:(BOOL)animated scroll:(BOOL)scroll forcePreload:(BOOL)forcePreload {
-	if (_currentPageIndex == targetPage && _pageSetViaPublicMethod != YES) {
+	if (_currentPageIndex == targetPage && _pageSetViaPublicMethod) {
 		return;
 	}
 	
