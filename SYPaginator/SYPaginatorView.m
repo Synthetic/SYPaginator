@@ -28,6 +28,7 @@
 	NSMutableDictionary *_reuseablePages;
 	BOOL _pageControlUsed;
 	BOOL _pageSetViaPublicMethod;
+	BOOL _pageContentNeedsRefresh;
 }
 
 @synthesize scrollView = _scrollView;
@@ -155,6 +156,7 @@
 #pragma mark - Managing data
 
 - (void)reloadData {
+	_pageContentNeedsRefresh = YES;
 	[self reloadDataRemovingCurrentPage:YES];
 }
 
@@ -402,7 +404,7 @@
 
 
 - (void)_setCurrentPageIndex:(NSInteger)targetPage animated:(BOOL)animated scroll:(BOOL)scroll forcePreload:(BOOL)forcePreload {
-	if (_currentPageIndex == targetPage && _pageSetViaPublicMethod != YES) {
+	if (_currentPageIndex == targetPage && _pageSetViaPublicMethod != YES && _pageContentNeedsRefresh != YES) {
 		return;
 	}
 	
@@ -449,6 +451,7 @@
 	}
 	
 	_pageSetViaPublicMethod = NO;
+	_pageContentNeedsRefresh = NO;
 }
 
 
