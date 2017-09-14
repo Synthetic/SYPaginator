@@ -314,6 +314,8 @@
 - (void)_resetScrollViewContentSize {
 	NSInteger numberOfPages = [self numberOfPages];
 	CGSize boundsSize = _scrollView.bounds.size;
+	boundsSize.height -= (_scrollView.contentInset.top + _scrollView.contentInset.bottom);
+	boundsSize.width -= (_scrollView.contentInset.left + _scrollView.contentInset.right);
 	if (_paginationDirection == SYPageViewPaginationDirectionHorizontal) {
 		boundsSize.width = (numberOfPages * boundsSize.width);
 	} else {
